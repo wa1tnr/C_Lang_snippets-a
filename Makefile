@@ -25,6 +25,10 @@ t1:	tested_1
 
 # if a.out exists, rm it:
 
+# find all tabs and remove them in the status, to help form .gitignore entries
+git_status:
+	@git status | cat | tr -d '\t'
+
 clean:
 	@echo -n '' # running clean now.
 	@if test -e a.out ; then rm ./a.out; fi

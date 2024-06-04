@@ -7,14 +7,9 @@ zombi:
 	@./a.out
 
 tested_0:
-	@echo "\t\ttesting 'gforth -e 'decimal 22 2 base ! . cr bye'"
+	@echo "\t\ttesting 'gforth -e 'char b emit 2 base !  10110  dup . dup decimal . hex 24 emit . cr bye'"
 	@echo -n "\t\t"
-	@gforth -e 'decimal 22 2 base ! . cr bye'
-	@echo "\t\ttesting 'gforth -e '2 base !  10110  dup . dup decimal . hex . cr bye'"
-	@echo "\t\ttesting 'gforth -e 'char b emit 2 base !  10110  dup . dup decimal . hex . cr bye'"
-	@echo -n "\t\t"
-	@gforth -e '2 base !  10110  dup . dup decimal . hex . cr bye'
-	@gforth -e 'char b emit 2 base !  10110  dup . dup decimal . hex . cr bye'
+	@gforth -e 'char b emit 2 base !  10110  dup . dup decimal . hex 24 emit . cr bye'
 
 t0:	tested_0
 

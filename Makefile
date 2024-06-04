@@ -13,6 +13,16 @@ tested_0:
 
 t0:	tested_0
 
+#  11010100
+#  11010100
+
+tested_1:
+	@echo "\t\ttesting 'gforth -e 'char b emit 2 base !  11010100  dup . dup decimal . hex 24 emit . cr bye'"
+	@echo -n "\t\t"
+	@gforth -e 'char b emit 2 base !  11010100  dup . dup decimal . hex 24 emit . cr bye'
+
+t1:	tested_1
+
 # if a.out exists, rm it:
 
 clean:

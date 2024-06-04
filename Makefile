@@ -13,6 +13,9 @@ tested_0:
 
 t0:	tested_0
 
+testa:
+	@gforth ./testa.fs
+
 #  11010100
 #  11010100
 

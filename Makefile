@@ -1,7 +1,12 @@
 
 all:	clean zombi
 
-dash-asked:
+dash-asked-bb:
+	@echo -n '' # running dash_asked-bb.c now.
+	@gcc dash_asked-bb.c
+	@./a.out
+
+dash-asked-aa:
 	@echo -n '' # running dash_asked-aa.c now.
 	@gcc dash_asked-aa.c
 	@./a.out

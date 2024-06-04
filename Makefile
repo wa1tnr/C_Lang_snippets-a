@@ -1,6 +1,11 @@
 
 all:	clean zombi
 
+one-change-aa:
+	@echo -n '' # running one-change-aa now.
+	@gcc one-change-aa.c
+	@./a.out
+
 zombi:
 	@echo -n '' # running zombi now.
 	@gcc zombi.c
@@ -35,4 +40,3 @@ git_status:
 clean:
 	@echo -n '' # running clean now.
 	@if test -e a.out ; then rm ./a.out; fi
-

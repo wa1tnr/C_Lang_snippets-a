@@ -1,7 +1,9 @@
 
+all:	clean zombi
 zombi:
-	gcc zombi.c
-	./a.out
+	@echo; ls -la; echo
+	@gcc zombi.c
+	@./a.out
 
 # if a.out exists, rm it:
 

@@ -1,0 +1,55 @@
+Wed  5 Jun 18:10:01 UTC 2024
+
+ $ make clean ; make| ag -v "some\/path\/to" | cat -n  | less
+
+
+                        Sample run
+
+
+ $ make clean ; make| ag -v "some\/path\/to" | cat -n
+
+rm -rf /tmp/arduino/cores ; rm -rf /tmp/arduino/sketches
+
+     1  rm -rf /tmp/arduino/cores ; rm -rf /tmp/arduino/sketches
+     2  COMPILE VERBOSE
+     3
+     4      RUNNING:
+     5
+     6          arduino-cli compile --fqbn esp32:esp32:esp32 
+     7
+     8  FQBN: esp32:esp32:esp32
+     9
+    10  esptool.py v4.5.1
+    11  Creating esp32 image...
+    12  Merged 1 ELF section
+    13  Successfully created esp32 image.
+    14  bash -c "[ -f \"/tmp/arduino/sketches/F0CACAFEFEEBEDEEFBEEFFEEDEC0FFEE\"/build_opt.h ] || touch \"/tmp/arduino/sketches/**************F0CACAFEFEEBEDEEFBEEFFEEDEC0FFEE\"/build_opt.h"
+    15  bash -c ": > /tmp/arduino/sketches/F0CACAFEFEEBEDEEFBEEFFEEDEC0FFEE/file_opts"
+    16  Detecting libraries used...
+    17  Generating function prototypes...
+    18  Compiling sketch...
+    19  Compiling libraries...
+    20  Compiling core...
+    21  bash -c "echo -DARDUINO_CORE_BUILD > /tmp/arduino/sketches/F0CACAFEFEEBEDEEFBEEFFEEDEC0FFEE/file_opts"
+    22  Archiving built core (caching) in: /tmp/arduino/cores/esp32_esp32_esp32_88a3f49ee6c3c030875b7ea13fa559df/core.a
+    23  bash -c ": > /tmp/arduino/sketches/F0CACAFEFEEBEDEEFBEEFFEEDEC0FFEE/file_opts"
+    24  Linking everything together...
+    25  esptool.py v4.5.1
+    26  Creating esp32 image...
+    27  Merged 2 ELF sections
+    28  Successfully created esp32 image.
+    29
+    30  Sketch uses 260705 bytes (19%) of program storage space. Maximum is 1310720 bytes.
+    31  Global variables use 21408 bytes (6%) of dynamic memory, leaving 306272 bytes for local variables. Maximum is 327680 bytes.
+    32
+    33  Used platform Version Path                                                       
+    34
+    35  Wed Jun  5 06:12:51 PM UTC 2024
+    36
+    37  3d0999c9ad53def0b6c1db196d45057a2866cf1e  ./CURRENT.d/esp32-ee.ino.bin
+    38
+
+ $ 
+
+end.
+

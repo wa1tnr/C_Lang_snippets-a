@@ -6,6 +6,15 @@
 
  * mcu's: esp32, atmel 328p
 
+### update: Wed  5 Jun 18:38:49 UTC 2024
+
+Looking pretty good.  Good enough to merge into main,
+after holding back quite a bit.
+
+Tested nice in wokwi vscode .. simulating an esp32's
+tty output (the primary output of this program is
+just printf() type utterances).
+
 ### update: Wed  5 Jun 16:48:41 UTC 2024
 
  * now compiles 'cleanly'

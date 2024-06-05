@@ -1,6 +1,5 @@
 #include <Arduino.h>
 
-
 char buffer[64];
 
 void print_me() {
@@ -12,7 +11,7 @@ extern "C" {
 #endif
 
 void do_the_thing() {
-    uint8_t test[4] = { 22, -44, -88, 44 };
+    uint8_t test[4] = { 22, (uint8_t) -44, (uint8_t) -88, 44 }; // bs bs and compiler will not have it -Wnarrowing
 
     snprintf(buffer, sizeof buffer, "%s", "\tuint8_t test[4] = { 22, -44, -88, 44 };\r\n");
     print_me(); // Serial.println(buffer);
@@ -20,7 +19,7 @@ void do_the_thing() {
     snprintf(buffer, sizeof buffer, "%s", "\ttest[0]: ");
     print_me();
 
-    snprintf(buffer, sizeof buffer, "%B\r\n\r\n", test[0]);
+    snprintf(buffer, sizeof buffer, "$%12X\r\n\r\n", test[0]);
     print_me();
 
     snprintf(buffer, sizeof buffer, "\t%s", "test[1] holds -44:\r\n");
@@ -29,7 +28,7 @@ void do_the_thing() {
     snprintf(buffer, sizeof buffer, "%s", "\ttest[1]: ");
     print_me();
 
-    snprintf(buffer, sizeof buffer, "%B\r\n", test[1]);
+    snprintf(buffer, sizeof buffer, "$%12X\r\n", test[1]);
     print_me();
 
     int16_t p = (int16_t) test[1];

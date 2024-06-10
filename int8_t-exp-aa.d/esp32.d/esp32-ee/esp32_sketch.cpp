@@ -6,9 +6,12 @@ void print_me() {
   Serial.println(buffer);
 }
 
+#define EOL "\r"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 void do_the_thing() {
     uint8_t test[4] = { 22, (uint8_t) -44, (uint8_t) -88, 44 }; // bs bs and compiler will not have it -Wnarrowing
@@ -37,27 +40,27 @@ void do_the_thing() {
     int8_t  s = (int8_t) 212;
     int16_t t = 212;
 
-    snprintf(buffer, sizeof buffer, "\t      p: %X\r\n", p);
+    snprintf(buffer, sizeof buffer, "\t      p: %X%s", p, EOL);
     print_me();
 
-    snprintf(buffer, sizeof buffer, "\t      q: %X\r\n", q);
+    snprintf(buffer, sizeof buffer, "\t      q: %X%s", q, EOL);
     print_me();
 
-    snprintf(buffer, sizeof buffer, "\t      r: %X\r\n", r);
+    snprintf(buffer, sizeof buffer, "\t      r: %X%s", r, EOL);
     print_me();
 
-    snprintf(buffer, sizeof buffer, "\t      s: %X\r\n", s);
+    snprintf(buffer, sizeof buffer, "\t      s: %X%s", s, EOL);
     print_me();
 
-    snprintf(buffer, sizeof buffer, "\t      t: %X\r\n", t);
+    snprintf(buffer, sizeof buffer, "\t      t: %X%s", t, EOL);
     print_me();
 
-    snprintf(buffer, sizeof buffer, "%s\n", "");
+    snprintf(buffer, sizeof buffer, "%s", EOL);
     print_me();
 
     for (int i = 0; i < 4; i++) {
         int16_t temp = (test[i] << 8 >> 8);
-        snprintf(buffer, sizeof buffer, "%d\n", temp);
+        snprintf(buffer, sizeof buffer, "%d%s", temp, EOL);
         print_me();
     }
 }
@@ -76,5 +79,10 @@ void setup() {
 }
 
 void loop() { }
+
+/*
+ the \n by itself creates unwanted double spacing on webbed wokwi
+ use \r globally never \n - at least on wokwi that seems to hold
+*/
 
 // end.

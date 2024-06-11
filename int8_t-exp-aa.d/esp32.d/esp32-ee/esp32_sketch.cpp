@@ -16,19 +16,19 @@ extern "C" {
 void do_the_thing() {
     uint8_t test[4] = { 22, (uint8_t) -44, (uint8_t) -88, 44 }; // bs bs and compiler will not have it -Wnarrowing
 
-    snprintf(buffer, sizeof buffer, "%s", "\tuint8_t test[4] = { 22, -44, -88, 44 };\r\n");
+    snprintf(buffer, sizeof buffer, "%s%s%s", EOL, "\tuint8_t test[4] = { 22, -44, -88, 44 };", EOL);
     print_me(); // Serial.println(buffer);
 
     snprintf(buffer, sizeof buffer, "%s", "\ttest[0]: ");
     print_me();
 
-    snprintf(buffer, sizeof buffer, "$%12X\r\n\r\n", test[0]);
+    snprintf(buffer, sizeof buffer, "$%12X%s%s", test[0], EOL, EOL);
     print_me();
 
-    snprintf(buffer, sizeof buffer, "\t%s", "test[1] holds -44:\r\n");
+    snprintf(buffer, sizeof buffer, "\ttest[1]  holds -44:%s", EOL);
     print_me();
 
-    snprintf(buffer, sizeof buffer, "\tKARGUtest[1]: " );
+    snprintf(buffer, sizeof buffer, "\ttest[1]: " );
     print_me();
 
     snprintf(buffer, sizeof buffer, "$%12X%s", test[1], EOL);
@@ -60,7 +60,7 @@ void do_the_thing() {
 
     for (int i = 0; i < 4; i++) {
         int16_t temp = (test[i] << 8 >> 8);
-        snprintf(buffer, sizeof buffer, "%d%s", temp, EOL);
+        snprintf(buffer, sizeof buffer, "\t\t%d%s", temp, EOL);
         print_me();
     }
 }
@@ -69,6 +69,11 @@ void do_the_thing() {
 }
 #endif
 
+void signoff_msg() {
+    snprintf(buffer, sizeof buffer, "%s%s", EOL, "\tProgram execution trapped in a while loop. ");
+        print_me();
+}
+
 void setup_serial() {
   Serial.begin(9600);
 }
@@ -76,13 +81,14 @@ void setup_serial() {
 void setup() {
     setup_serial();
     do_the_thing(); // _Gerry_ a gus van san film
+    signoff_msg();
+    while(-1);
+    Serial.println("program ESCAPED while loop trap.  shred: -77");
 }
 
-void loop() { }
-
-/*
- the \n by itself creates unwanted double spacing on webbed wokwi
- use \r globally never \n - at least on wokwi that seems to hold
-*/
-
+void loop() {
+    Serial.println("THIS MESSAGE NEVER PRINTS.");
+    delay(4000);
+}
+ 
 // end.

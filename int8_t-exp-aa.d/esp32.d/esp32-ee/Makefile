@@ -33,4 +33,7 @@ comm:
 clean:
 	rm -rf /tmp/arduino/cores ; rm -rf /tmp/arduino/sketches
 
+# clean is global enough and does .. what distclean usually does.  Maybe.
+distclean:	clean
+
 # end.

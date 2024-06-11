@@ -3,10 +3,10 @@
 char buffer[64];
 
 void print_me() {
-  Serial.println(buffer);
+  Serial.print(buffer);
 }
 
-#define EOL "\r"
+#define EOL "\r\n"
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,10 +28,10 @@ void do_the_thing() {
     snprintf(buffer, sizeof buffer, "\t%s", "test[1] holds -44:\r\n");
     print_me();
 
-    snprintf(buffer, sizeof buffer, "%s", "\ttest[1]: ");
+    snprintf(buffer, sizeof buffer, "\tKARGUtest[1]: " );
     print_me();
 
-    snprintf(buffer, sizeof buffer, "$%12X\r\n", test[1]);
+    snprintf(buffer, sizeof buffer, "$%12X%s", test[1], EOL);
     print_me();
 
     int16_t p = (int16_t) test[1];

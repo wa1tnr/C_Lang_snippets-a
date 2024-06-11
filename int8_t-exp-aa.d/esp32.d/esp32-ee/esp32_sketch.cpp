@@ -1,5 +1,8 @@
 #include <Arduino.h>
 
+#define bfprintf(a,b,c,d) \
+    snprintf(buffer, sizeof buffer, a, b, c, d);
+
 char buffer[64];
 
 void print_me() {
@@ -12,12 +15,12 @@ void print_me() {
 extern "C" {
 #endif
 
-
 void do_the_thing() {
-    uint8_t test[4] = { 22, (uint8_t) -44, (uint8_t) -88, 44 }; // bs bs and compiler will not have it -Wnarrowing
+    uint8_t test[4] = { 22, (uint8_t) -44, (uint8_t) -88, 44 };
 
-    snprintf(buffer, sizeof buffer, "%s%s%s", EOL, "\tuint8_t test[4] = { 22, -44, -88, 44 };", EOL);
-    print_me(); // Serial.println(buffer);
+    bfprintf("%s%s%s", EOL, "\tuint8_t test[4] = { CHICK22, COREA-44, -88, 44 };", EOL);
+    // snprintf(buffer, sizeof buffer, "%s%s%s", EOL, "\tuint8_t test[4] = { 22, -44, -88, 44 };", EOL);
+    print_me();
 
     snprintf(buffer, sizeof buffer, "%s", "\ttest[0]: ");
     print_me();

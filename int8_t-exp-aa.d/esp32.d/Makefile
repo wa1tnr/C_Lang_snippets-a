@@ -1,17 +1,17 @@
-# Wed  5 Jun 17:47:11 UTC 2024
+# Tue 11 Jun 17:20:25 UTC 2024
+# was: Wed  5 Jun 17:47:11 UTC 2024
 
-all: targettte
-	@echo targettt is being made - has clean and compile_verbose
-	@echo;date;sleep 3;date;echo
+# all: terse
+
+all: verbose
 
 .PHONY: all
 
-targettte:	clean compile_verbose
-	@echo
-	@date
-	@echo
+verbose:	clean compile_verbose
 	@sha1sum ./CURRENT.d/esp32-ee.ino.bin
-	@echo
+
+terse:	clean compile_only
+	@sha1sum ./CURRENT.d/esp32-ee.ino.bin
 
 install:
 	@./upload.sh

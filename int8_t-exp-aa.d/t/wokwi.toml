@@ -1,0 +1,6 @@
+[wokwi]
+version = 1
+gdbServerPort = 3333
+firmware = "CURRENT.d/esp32-ee.ino.bin"
+elf = "CURRENT.d/esp32-ee.ino.elf"
+

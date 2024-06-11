@@ -8,10 +8,10 @@ all: verbose
 .PHONY: all
 
 verbose:	clean compile_verbose
-	@sha1sum ./CURRENT.d/esp32-ee.ino.bin
+	@sha1sum ./CURRENT.d/esp32-ff.ino.bin
 
 terse:	clean compile_only
-	@sha1sum ./CURRENT.d/esp32-ee.ino.bin
+	@sha1sum ./CURRENT.d/esp32-ff.ino.bin
 
 install:
 	@./upload.sh

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export LOCAL_ACLI_DIRECTOR_Y_PROJ_ECT="./esp32-ee"
+export LOCAL_ACLI_DIRECTOR_Y_PROJ_ECT="./esp32-ff"
 
 prequel_a() {
     echo

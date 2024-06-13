@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-extern unsigned int *psp;         /* stack pointers */
+extern unsigned int *psp; /* stack pointer */
 
 #ifdef __cplusplus
 extern "C" {
@@ -8,18 +8,31 @@ extern "C" {
 
 /* dump 16 bytes of RAM in hex with ascii on the side */
 
+void push(int new_tos) {
+    int pspInt = (int) psp;
+    Serial.print("\n\tpsp: ");
+    Serial.println(pspInt, HEX);
+    --psp; // make a new space on the stack
+    psp[0] = new_tos; // was psp[1]
+
+/*
+    pspInt = (int) psp;
+    Serial.print(" after: psp: ");
+    Serial.println(pspInt, HEX);
+*/
+}
+
 int pop() {
     int p = psp[0]; psp++;
     return p;
 }
 
-void dumpRAM() {
+void dumpRAM(int iterations) {
     char buffer[16] = "";
     char *ram;
     int p = pop();
-    ram = (char *)p;
 
-    /* 3F400100 good! 28 Dec 2023 */
+    ram = (char *)p;
 
     snprintf(buffer, sizeof(buffer), "%8X:", p);
     Serial.print(buffer);
@@ -38,25 +51,21 @@ void dumpRAM() {
         buffer[1] = '\0';
         Serial.print(buffer);
     }
-
-// CODE(dup) {
-//   --psp;
-//   psp[0] = psp[1];
-// }
-
     --psp;
     psp[0] = (p + 16);
-
-    // push(p + 16);
-    /*                                   KLUDGE  FIX ME */
 }
 
-/* dump 256 bytes of RAM */
+/* dump 16 bytes of RAM for each iteration */
 void rdumps() {
-    for (int i = 0; i < 16; i++) {
+  int iterations = 10; // 16 is nominal here
+    for (int i = 0; i < iterations; i++) {
         Serial.println();
-        dumpRAM();
+        dumpRAM(iterations);
+        if (i == 3) {
+            Serial.print("\n - - - "); // highlight TOS region
+        }
     }
+    Serial.println(""); // Serial.println("\nrdumps() has ended.");
 }
 
 #ifdef __cplusplus

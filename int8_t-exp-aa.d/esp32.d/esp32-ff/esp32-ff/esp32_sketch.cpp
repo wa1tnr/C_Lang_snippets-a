@@ -30,16 +30,67 @@ extern void rdumps();
 
 #define POFFSET 64 - 0 // kludge: change 0 to -4 will give zero-ref line numbers in hex
 
+/*
+ *
+ *   TODO:  find RAM address for 'the thing' you wanted to inspect.
+ *
+ *          uint8_t or uint16_t ints for example.  Originally wanted
+ *          a binary dump of that RAM but hex'll probably work too.
+ *
+ *          psp[0] = new_tos;
+ */
+
+void nopp() {
+}
+
 void do_the_thing() {
     uint8_t test[4] = { 22, (uint8_t) -44, (uint8_t) -88, 44 };
 
     char *buf_ptr;
     buf_ptr =(char *) &buffer;
     int buf_ptr_cint = (int) buf_ptr;
+
+    // int pram = psp[2]; // two under TOS
+
+    char *ram;
+    push(0xA5);
+    push(0xA5);
+    push(0xA5);
+    int pq = psp[2];
+    ram = (char *)pq;
+    snprintf(buffer, sizeof(buffer), "tos[2]: %8X", pq);
+    print_me();
+
+    // char c = *ram++;
+
+    char c = *ram;
+
+    snprintf(buffer, sizeof(buffer), " %02X", (c & 0xff));
+    print_me();
+
     int pushed, tossed, saved_push;
 
-    /* DELETE ME: snprintf(buffer, sizeof buffer, "\t      buf_ptr: $%12X\r", buf_ptr); */
-    snprintf(buffer, sizeof buffer, "\t      buf_ptr_cint: $%12X\r", buf_ptr_cint);
+    push(0xA5);
+    push(0xA5);
+    push(0xA5);
+    push(0xA5);
+    push(0xA5);
+
+    // snprintf(buffer, sizeof buffer, "\t   moy bueno      pspi: $%12X%s", &ram, EOL);
+    // print_me();
+    int toss = pop();
+    if (toss == -17742) { }
+    snprintf(buffer, sizeof buffer, "\t   trapped in while loop:%s", EOL);
+    print_me();
+    while(-1);
+
+#if 0
+
+3FFC1CB4:  00 00 00 00 00 00 00 00 B4 1C FC 3F 00 00 00 00 ...........?....
+            4  5  6  7  8  9  A  B  C  D  E  F C0
+#endif
+
+    snprintf(buffer, sizeof buffer, "\t      buf_ptr: $%12X%s", buf_ptr_cint, EOL);
     print_faked_cr();
 
     snprintf(buffer, sizeof buffer, "%s%s%s", EOL, "\tuint8_t test[4] = { 22, -44, -88, 44 };", EOL);

@@ -1,6 +1,7 @@
 #include "cpp_macros.h"
 #include <Arduino.h>
-#define DT_STAMP "Sat 15 Jun 21:19:45 UTC 2024"
+
+extern void print_rsp_addr_val(uint8_t index);
 
 char buffer[64];
 
@@ -78,12 +79,14 @@ void test_stack_els() {
     push(0xC0DEBEEF); count++; // push psp[0] (TOS) top of stack
     // clang-format on
 
-    /* print_cr(); */
+    print_cr();
 
     for (uint8_t size = count; size > 0; size--) {
         uint8_t iterator = size - 1;
         print_psp_addr_val(iterator);
     }
+
+    print_cr();
 
     int count_deeper = count;
 
@@ -92,6 +95,12 @@ void test_stack_els() {
     int address = (unsigned int) psp_rs;
     push(address);
     rdumps();
+}
+
+void trapped() {
+    snprintf(buffer, sizeof buffer, "\t   trapped in while loop:%s", EOL);
+    print_me();
+    while (-1) ;
 }
 
 void do_the_thing() {
@@ -118,10 +127,7 @@ void do_the_thing() {
     if (toss == -17742) {
     }
     print_cr();
-    snprintf(buffer, sizeof buffer, "\t   trapped in while loop:%s", EOL);
-    print_me();
-    while (-1)
-        ;
+    trapped();
 
 #if 0
 
@@ -227,10 +233,14 @@ void signoff_msg() {
     print_me();
 }
 
+void print_rsp(uint8_t index) {
+    print_rsp_addr_val(index);
+}
+
 void setup_serial() {
     Serial.begin(9600);
     Serial.println("testing seventeen cde");
-    Serial.println("Sat 15 Jun 21:19:45 UTC 2024  DAKMAR  KHUFU  DRY-PATCH");
+    Serial.println("Sat 15 Jun 22:55:41 UTC 2024  GORSE  DAKMAR  KHUFU  DRY-PATCH");
     Serial.print("current timestamp: ");
     Serial.println(__TIMESTAMP__);
     delay(1555);
@@ -240,6 +250,8 @@ void setup() {
     setup_serial();
     psp = &pstack[PSTACKSIZE - 1];
     do_the_thing(); // _Gerry_ a gus van san film
+    uint8_t index = 0;
+    print_rsp(index);
     signoff_msg();
     while (-1)
         ;

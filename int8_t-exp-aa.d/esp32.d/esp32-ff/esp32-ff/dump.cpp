@@ -9,18 +9,12 @@ extern "C" {
 /* dump 16 bytes of RAM in hex with ascii on the side */
 
 void push(int new_tos) {
-    int pspInt = (int)psp;
+    int pspInt;
+    --psp; // make a new space on the stack
+    psp[0] = new_tos;
+    pspInt = (int)psp;
     Serial.print("\tpsp: ");
-    Serial.print(pspInt, HEX);
-    Serial.println("\t note: not psp[n] just psp itself.");
-    --psp;            // make a new space on the stack
-    psp[0] = new_tos; // was psp[1]
-
-    /*
-        pspInt = (int) psp;
-        Serial.print(" after: psp: ");
-        Serial.println(pspInt, HEX);
-    */
+    Serial.println(pspInt, HEX);
 }
 
 int pop() {

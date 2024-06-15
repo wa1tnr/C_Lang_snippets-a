@@ -1,6 +1,6 @@
 #include "cpp_macros.h"
 #include <Arduino.h>
-#define DT_STAMP "Sat 15 Jun 18:47:26 UTC 2024"
+#define DT_STAMP "Sat 15 Jun 21:19:45 UTC 2024"
 
 char buffer[64];
 
@@ -227,9 +227,9 @@ void signoff_msg() {
 
 void setup_serial() {
     Serial.begin(9600);
-    Serial.println("testing seventeen bcd");
-    Serial.println("Sat 15 Jun 19:12:02 UTC 2024  KHUFU DRY-PATCH");
-    Serial.print(" the timestamp macro shows: ");
+    Serial.println("testing seventeen cde");
+    Serial.println("Sat 15 Jun 21:19:45 UTC 2024  DAKMAR  KHUFU  DRY-PATCH");
+    Serial.print("current timestamp: ");
     Serial.println(__TIMESTAMP__);
     delay(1555);
 }

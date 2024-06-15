@@ -54,7 +54,7 @@ void nopp() {}
 void print_psp_addr_val(uint8_t index) {
     unsigned int *psp_rs = &psp[index];
     int address = (unsigned int)psp_rs;
-    snprintf(buffer, sizeof(buffer), "\tpsp[%d]: %12X: ", index, address);
+    snprintf(buffer, sizeof(buffer), "\tgrufus_psp[%d]: %12X: ", index, address);
     print_me();
 
     int pq = psp[index];
@@ -84,6 +84,11 @@ void test_stack_els() {
         uint8_t iterator = size - 1;
         print_psp_addr_val(iterator);
     }
+
+    unsigned int *psp_rs = &psp[count -8];
+    int address = (unsigned int)psp_rs;
+    push(address);
+    rdumps();
 }
 
 void do_the_thing() {
@@ -96,47 +101,10 @@ void do_the_thing() {
 
     char *ram;
 
-#if 0
-    push(0xF0CACAFE); // push tos[2] of final 3 pushes, including these two:
-    push(0xC0FFEE77); // push tos[2] of final 3 pushes, including these two:
-    push(0xA5);       // push tos[1] of "" ""
-    push(0xA5);       // push tos[0] (TOS) top of stack (pseudo stack)
-#endif
-
-    uint8_t psp_index = 1;
-    /* unsigned int *psp_rs = &psp[psp_index]; */
-    /* unsigned int addr = (unsigned int) psp_rs; */
-    print_psp_addr_val(psp_index);
-
-    print_cr();
-    print_cr();
     test_stack_els();
-    print_cr();
-    print_cr();
-
-#if 0
-    xpsp_rs = &psp[2]; // redundant may be unecessry
-    int address = (unsigned int) psp_rs; // also redundant
-    xsnprintf(buffer, sizeof(buffer), "\tpsp[2]: %12X: ", address);
-    print_me();
-
-    // read contents of psp[2] (tos -2)
-#endif
 
     int pq = psp[2];
     ram = (char *)pq;
-
-#if 0
-    xsnprintf(buffer, sizeof(buffer), "%8X", pq);
-    print_me();
-    print_cr();
-    print_cr();
-    print_cr();
-    xprint_cr();
-    xprint_cr();
-#endif
-
-    // char c = *ram++;
 
     char c = *ram;
 
@@ -145,14 +113,6 @@ void do_the_thing() {
 
     int pushed, tossed, saved_push;
 
-    push(0xA5);
-    push(0xA5);
-    push(0xA5);
-    push(0xA5);
-    push(0xA5);
-
-    // snprintf(buffer, sizeof buffer, "\t   moy bueno      pspi: $%12X%s",
-    // &ram, EOL); print_me();
     int toss = pop();
     if (toss == -17742) {
     }
@@ -271,15 +231,6 @@ void setup_serial() {
     Serial.println("Sat 15 Jun 19:12:02 UTC 2024  KHUFU DRY-PATCH");
     Serial.print(" the timestamp macro shows: ");
     Serial.println(__TIMESTAMP__);
-    // Serial.print(" the DATE and TIME macro evaluations are: ");
-    // Serial.println(__DATE__); Serial.println(__TIME__);
-    // Serial.print(" the FILE macro is: ");
-    // clang-format off
-    // Serial.println(__FILE__); // too long of a path for this use
-                                 // just want filename
-    // clang-format on
-
-    // Sat 15 Jun 17:18:26 UTC 2024
     delay(1555);
 }
 

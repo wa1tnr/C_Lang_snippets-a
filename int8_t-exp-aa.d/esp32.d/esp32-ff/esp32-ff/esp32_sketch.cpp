@@ -127,7 +127,7 @@ void do_the_thing() {
     if (toss == -17742) {
     }
     print_cr();
-    trapped();
+    return; // trapped();
 
 #if 0
 
@@ -250,6 +250,9 @@ void setup() {
     setup_serial();
     psp = &pstack[PSTACKSIZE - 1];
     do_the_thing(); // _Gerry_ a gus van san film
+    Serial.println(" going into the trap here:");
+    Serial.println("");
+    trapped();
     uint8_t index = 0;
     print_rsp(index);
     signoff_msg();

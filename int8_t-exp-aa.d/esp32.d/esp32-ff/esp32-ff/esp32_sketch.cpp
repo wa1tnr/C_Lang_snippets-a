@@ -50,6 +50,37 @@ extern void rdumps();
 
 void nopp() {}
 
+void print_psp_addr_val(uint8_t index) {
+    unsigned int *psp_rs = &psp[index];
+    int address = (unsigned int)psp_rs;
+    snprintf(buffer, sizeof(buffer), "\tpsp[%d]: %12X: ", index, address);
+    print_me();
+
+    int pq = psp[index];
+    snprintf(buffer, sizeof(buffer), "%8X", pq);
+    print_me();
+    print_cr();
+}
+
+void test_stack_els() {
+    int count = 0;
+    push(0xF0CACAFE); // push tos[2] of final 3 pushes, including these two:
+    count++;
+    push(0xC0FFEE77); // push tos[2] of final 3 pushes, including these two:
+    count++;
+    push(0xA5); // push tos[1] of "" ""
+    count++;
+    push(0xA5); // push tos[0] (TOS) top of stack (pseudo stack)
+    count++;
+
+//  2 and 1 only but we already have 3 2 1 0 available
+
+    for (uint8_t size = (count - 1); size > 0; size--) {
+        uint8_t iterator = size - 1;
+        print_psp_addr_val(iterator);
+    }
+}
+
 void do_the_thing() {
 
     uint8_t test[4] = {22, (uint8_t)-44, (uint8_t)-88, 44};
@@ -59,26 +90,46 @@ void do_the_thing() {
     int buf_ptr_cint = (int)buf_ptr;
 
     char *ram;
+
+#if 0
+    push(0xF0CACAFE); // push tos[2] of final 3 pushes, including these two:
     push(0xC0FFEE77); // push tos[2] of final 3 pushes, including these two:
     push(0xA5);       // push tos[1] of "" ""
     push(0xA5);       // push tos[0] (TOS) top of stack (pseudo stack)
+#endif
 
-    // print address of TOS -2 (psp[2] aka tos[2]
-    unsigned int *psp_rs = &psp[2];
-    int address = (unsigned int)psp_rs;
-    snprintf(buffer, sizeof(buffer), "\tpsp[2]: %12X: ", address);
+    uint8_t psp_index = 1;
+    /* unsigned int *psp_rs = &psp[psp_index]; */
+    /* unsigned int addr = (unsigned int) psp_rs; */
+    print_psp_addr_val(psp_index);
+
+    print_cr();
+    print_cr();
+    test_stack_els();
+    print_cr();
+    print_cr();
+
+#if 0
+    xpsp_rs = &psp[2]; // redundant may be unecessry
+    int address = (unsigned int) psp_rs; // also redundant
+    xsnprintf(buffer, sizeof(buffer), "\tpsp[2]: %12X: ", address);
     print_me();
 
     // read contents of psp[2] (tos -2)
+#endif
+
     int pq = psp[2];
     ram = (char *)pq;
-    snprintf(buffer, sizeof(buffer), "%8X", pq);
+
+#if 0
+    xsnprintf(buffer, sizeof(buffer), "%8X", pq);
     print_me();
     print_cr();
     print_cr();
     print_cr();
-    print_cr();
-    print_cr();
+    xprint_cr();
+    xprint_cr();
+#endif
 
     // char c = *ram++;
 
@@ -212,7 +263,9 @@ void signoff_msg() {
 void setup_serial() {
     Serial.begin(9600);
     Serial.println("testing seventeen abc");
-    delay(5555);
+    Serial.println("Sat 15 Jun 17:18:26 UTC 2024  KHUFU DRY-PATCH");
+// Sat 15 Jun 17:18:26 UTC 2024
+    delay(1555);
 }
 
 void setup() {

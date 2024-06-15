@@ -14,8 +14,9 @@ unsigned int *rsp;
 
 void print_rsp_addr_val(uint8_t index) {
     unsigned int *rsp_rs = &rsp[index];
-    int address = (unsigned int) rsp_rs;
-    snprintf(buffer, sizeof(buffer), "\trrufus_rsp[%d]: %12X: ", index, address);
+    int address = (unsigned int)rsp_rs;
+    snprintf(buffer, sizeof(buffer), "\trrufus_rsp[%d]: %12X: ", index,
+             address);
     print_me();
 
     int rq = rsp[index];

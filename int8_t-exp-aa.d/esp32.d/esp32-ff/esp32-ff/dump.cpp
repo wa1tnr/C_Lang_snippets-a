@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 extern unsigned int *psp; /* stack pointer */
+extern void print_cr();
 
 #ifdef __cplusplus
 extern "C" {

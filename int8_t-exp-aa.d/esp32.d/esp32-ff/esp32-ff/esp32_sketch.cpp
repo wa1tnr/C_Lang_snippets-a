@@ -78,44 +78,46 @@ void test_stack_els() {
     push(0xC0DEBEEF); count++; // push psp[0] (TOS) top of stack
     // clang-format on
 
-    print_cr();
+    /* print_cr(); */
 
     for (uint8_t size = count; size > 0; size--) {
         uint8_t iterator = size - 1;
         print_psp_addr_val(iterator);
     }
 
-    unsigned int *psp_rs = &psp[count -8];
-    int address = (unsigned int)psp_rs;
+    int count_deeper = count;
+
+    unsigned int *psp_rs = &psp[count_deeper - 16];
+
+    int address = (unsigned int) psp_rs;
     push(address);
     rdumps();
 }
 
 void do_the_thing() {
 
-    uint8_t test[4] = {22, (uint8_t)-44, (uint8_t)-88, 44};
+    print_cr();
+    test_stack_els();
 
+    uint8_t test[4] = {22, (uint8_t)-44, (uint8_t)-88, 44};
     char *buf_ptr;
     buf_ptr = (char *)&buffer;
     int buf_ptr_cint = (int)buf_ptr;
-
     char *ram;
-
-    test_stack_els();
-
     int pq = psp[2];
     ram = (char *)pq;
 
     char c = *ram;
 
     snprintf(buffer, sizeof(buffer), " %02X", (c & 0xff));
-    print_me();
+    /* print_me(); */ /* easy to suppress */
 
     int pushed, tossed, saved_push;
 
     int toss = pop();
     if (toss == -17742) {
     }
+    print_cr();
     snprintf(buffer, sizeof buffer, "\t   trapped in while loop:%s", EOL);
     print_me();
     while (-1)

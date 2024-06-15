@@ -60,12 +60,12 @@ void do_the_thing() {
 
     char *ram;
     push(0xC0FFEE77); // push tos[2] of final 3 pushes, including these two:
-    push(0xA5); // push tos[1] of "" ""
-    push(0xA5); // push tos[0] (TOS) top of stack (pseudo stack)
+    push(0xA5);       // push tos[1] of "" ""
+    push(0xA5);       // push tos[0] (TOS) top of stack (pseudo stack)
 
     // print address of TOS -2 (psp[2] aka tos[2]
-    unsigned int* psp_rs = &psp[2];
-    int address = (unsigned int) psp_rs;
+    unsigned int *psp_rs = &psp[2];
+    int address = (unsigned int)psp_rs;
     snprintf(buffer, sizeof(buffer), "\tpsp[2]: %12X: ", address);
     print_me();
 

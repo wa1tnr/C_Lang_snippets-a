@@ -75,7 +75,7 @@ void test_stack_els() {
 
 //  2 and 1 only but we already have 3 2 1 0 available
 
-    for (uint8_t size = (count - 1); size > 0; size--) {
+    for (uint8_t size = count; size > 0; size--) {
         uint8_t iterator = size - 1;
         print_psp_addr_val(iterator);
     }

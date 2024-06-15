@@ -3,9 +3,11 @@
 
 char buffer[64];
 
+// clang-format off
 void print_me() {
-  Serial.print(buffer);
+    Serial.print(buffer);
 }
+// clang-format off
 
 #define EOL "\r\n"
 

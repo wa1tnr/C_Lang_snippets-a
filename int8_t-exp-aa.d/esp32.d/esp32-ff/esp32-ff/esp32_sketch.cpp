@@ -1,5 +1,6 @@
 #include "cpp_macros.h"
 #include <Arduino.h>
+#define DT_STAMP "Sat 15 Jun 18:47:26 UTC 2024"
 
 char buffer[64];
 
@@ -63,17 +64,21 @@ void print_psp_addr_val(uint8_t index) {
 }
 
 void test_stack_els() {
+#if 0
+        psp[3]:     3FFC1CBC: F0CACAFE
+        psp[2]:     3FFC1CB8: C0FFEE77
+        psp[1]:     3FFC1CB4: A55AA55A
+        psp[0]:     3FFC1CB0: C0DEBEEF
+#endif
     int count = 0;
-    push(0xF0CACAFE); // push tos[2] of final 3 pushes, including these two:
-    count++;
-    push(0xC0FFEE77); // push tos[2] of final 3 pushes, including these two:
-    count++;
-    push(0xA5); // push tos[1] of "" ""
-    count++;
-    push(0xA5); // push tos[0] (TOS) top of stack (pseudo stack)
-    count++;
+    // clang-format off
+    push(0xF0CACAFE); count++; // push psp[3]
+    push(0xC0FFEE77); count++; // push psp[2]
+    push(0xA55AA55A); count++; // push psp[1]
+    push(0xC0DEBEEF); count++; // push psp[0] (TOS) top of stack
+    // clang-format on
 
-//  2 and 1 only but we already have 3 2 1 0 available
+    print_cr();
 
     for (uint8_t size = count; size > 0; size--) {
         uint8_t iterator = size - 1;
@@ -262,9 +267,19 @@ void signoff_msg() {
 
 void setup_serial() {
     Serial.begin(9600);
-    Serial.println("testing seventeen abc");
-    Serial.println("Sat 15 Jun 17:18:26 UTC 2024  KHUFU DRY-PATCH");
-// Sat 15 Jun 17:18:26 UTC 2024
+    Serial.println("testing seventeen bcd");
+    Serial.println("Sat 15 Jun 19:12:02 UTC 2024  KHUFU DRY-PATCH");
+    Serial.print(" the timestamp macro shows: ");
+    Serial.println(__TIMESTAMP__);
+    // Serial.print(" the DATE and TIME macro evaluations are: ");
+    // Serial.println(__DATE__); Serial.println(__TIME__);
+    // Serial.print(" the FILE macro is: ");
+    // clang-format off
+    // Serial.println(__FILE__); // too long of a path for this use
+                                 // just want filename
+    // clang-format on
+
+    // Sat 15 Jun 17:18:26 UTC 2024
     delay(1555);
 }
 

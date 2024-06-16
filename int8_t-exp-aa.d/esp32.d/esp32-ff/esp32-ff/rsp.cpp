@@ -1,7 +1,8 @@
+/* rsp.cpp */
 // Sat 15 Jun 23:17:53 UTC 2024
 
-#include "hesp32_sketch.h"
 #include <Arduino.h>
+#include "hesp32_sketch.h"
 
 extern char buffer[64];
 extern void print_me();
@@ -21,6 +22,12 @@ void rpush(int new_rtos) {
     rspInt = (int)rsp;
     Serial.print("\trsp: ");
     Serial.println(rspInt, HEX);
+}
+
+int rpop() {
+    int p = rsp[0];
+    rsp++;
+    return p;
 }
 
 void print_rsp_addr_val(uint8_t index) {

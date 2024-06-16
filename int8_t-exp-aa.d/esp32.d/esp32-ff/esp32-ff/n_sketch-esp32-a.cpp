@@ -26,6 +26,8 @@ extern "C" {
 #endif
 
 extern void rpush(int new_rtos);
+extern int rpop();
+
 extern void print_rsp_addr_val(uint8_t index);
 
 #define PSTACKSIZE 64 /* 64 cells */ /* forth.h */
@@ -243,10 +245,10 @@ void signoff_msg() {
 void print_rsp(uint8_t index) { print_rsp_addr_val(index); }
 
 void setup_serial() {
-    Serial.begin(9600);
+    Serial.begin(300);
     Serial.println("testing seventeen cde");
     Serial.println(
-        "Sat 15 Jun 22:55:41 UTC 2024  GORSE  DAKMAR  KHUFU  DRY-PATCH");
+        "Sun 16 Jun 12:08:46 UTC 2024  SARTOON  GORSE  DAKMAR  KHUFU");
     Serial.print("current timestamp: ");
     Serial.println(__TIMESTAMP__);
     delay(1555);

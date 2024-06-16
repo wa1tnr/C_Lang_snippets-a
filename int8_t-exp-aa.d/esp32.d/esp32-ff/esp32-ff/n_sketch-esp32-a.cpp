@@ -1,6 +1,6 @@
-#include <Arduino.h>
 #include "cpp_macros.h"
-#include "esp32_sketch.h"
+#include "hesp32_sketch.h"
+#include <Arduino.h>
 
 extern unsigned int rstack[RSTACKSIZE];
 extern unsigned int *rsp; /* return stack pointer */
@@ -252,14 +252,13 @@ void setup_serial() {
     delay(1555);
 }
 
-
 void setup() {
     setup_serial();
     psp = &pstack[PSTACKSIZE - 1];
     rsp = &rstack[RSTACKSIZE - 1];
     do_the_thing(); // _Gerry_ a gus van san film
 
-// clang-format off
+    // clang-format off
 
 #if 0
     rrufus_rsp[3]:     3FFC1E00: CEEDFEED
@@ -280,14 +279,16 @@ void setup() {
     trapped();
 #endif
 
-// clang-format on
+    // clang-format on
 
     print_cr();
     uint8_t index;
+    // clang-format off
     index = 3; print_rsp(index);
     index = 2; print_rsp(index);
     index = 1; print_rsp(index);
     index = 0; print_rsp(index);
+    // clang-format on
     print_cr();
     trapped();
     signoff_msg();

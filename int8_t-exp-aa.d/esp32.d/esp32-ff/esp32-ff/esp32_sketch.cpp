@@ -259,12 +259,20 @@ void setup() {
     rsp = &rstack[RSTACKSIZE - 1];
     do_the_thing(); // _Gerry_ a gus van san film
 
-    int new_rtos=0xCEEDFEED;
-    rpush(new_rtos);
-    new_rtos=0xFEDEF00D;
-    rpush(new_rtos);
-    new_rtos=0xDEAFD00D;
-    rpush(new_rtos);
+// clang-format off
+
+#if 0
+    rrufus_rsp[3]:     3FFC1E00: CEEDFEED
+    rrufus_rsp[2]:     3FFC1DFC: C0FAFACE
+    rrufus_rsp[1]:     3FFC1DF8: FEDEF00D
+    rrufus_rsp[0]:     3FFC1DF4: DEAFD00D
+#endif
+
+    int new_rtos;
+    new_rtos=0xCEEDFEED; rpush(new_rtos);
+    new_rtos=0xC0FAFACE; rpush(new_rtos);
+    new_rtos=0xFEDEF00D; rpush(new_rtos);
+    new_rtos=0xDEAFD00D; rpush(new_rtos);
 
 #if 0
     Serial.println(" going into the trap here:");
@@ -272,8 +280,12 @@ void setup() {
     trapped();
 #endif
 
+// clang-format on
+
     print_cr();
-    uint8_t index = 2; print_rsp(index);
+    uint8_t index;
+    index = 3; print_rsp(index);
+    index = 2; print_rsp(index);
     index = 1; print_rsp(index);
     index = 0; print_rsp(index);
     print_cr();

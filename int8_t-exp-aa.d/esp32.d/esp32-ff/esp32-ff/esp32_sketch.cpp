@@ -261,6 +261,10 @@ void setup() {
 
     int new_rtos=0xCEEDFEED;
     rpush(new_rtos);
+    new_rtos=0xFEDEF00D;
+    rpush(new_rtos);
+    new_rtos=0xDEAFD00D;
+    rpush(new_rtos);
 
 #if 0
     Serial.println(" going into the trap here:");

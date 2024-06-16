@@ -1,7 +1,9 @@
-#include "cpp_macros.h"
 #include <Arduino.h>
+#include "cpp_macros.h"
+#include "esp32_sketch.h"
 
-extern void print_rsp_addr_val(uint8_t index);
+extern unsigned int rstack[RSTACKSIZE];
+extern unsigned int *rsp; /* return stack pointer */
 
 char buffer[64];
 
@@ -22,6 +24,9 @@ void print_cr() {
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+extern void rpush(int new_rtos);
+extern void print_rsp_addr_val(uint8_t index);
 
 #define PSTACKSIZE 64 /* 64 cells */ /* forth.h */
 
@@ -55,7 +60,8 @@ void nopp() {}
 void print_psp_addr_val(uint8_t index) {
     unsigned int *psp_rs = &psp[index];
     int address = (unsigned int)psp_rs;
-    snprintf(buffer, sizeof(buffer), "\tgrufus_psp[%d]: %12X: ", index, address);
+    snprintf(buffer, sizeof(buffer), "\tgrufus_psp[%d]: %12X: ", index,
+             address);
     print_me();
 
     int pq = psp[index];
@@ -92,7 +98,7 @@ void test_stack_els() {
 
     unsigned int *psp_rs = &psp[count_deeper - 16];
 
-    int address = (unsigned int) psp_rs;
+    int address = (unsigned int)psp_rs;
     push(address);
     rdumps();
 }
@@ -100,7 +106,8 @@ void test_stack_els() {
 void trapped() {
     snprintf(buffer, sizeof buffer, "\t   trapped in while loop:%s", EOL);
     print_me();
-    while (-1) ;
+    while (-1)
+        ;
 }
 
 void do_the_thing() {
@@ -127,7 +134,7 @@ void do_the_thing() {
     if (toss == -17742) {
     }
     print_cr();
-    return; // trapped();
+    return;
 
 #if 0
 
@@ -233,28 +240,37 @@ void signoff_msg() {
     print_me();
 }
 
-void print_rsp(uint8_t index) {
-    print_rsp_addr_val(index);
-}
+void print_rsp(uint8_t index) { print_rsp_addr_val(index); }
 
 void setup_serial() {
     Serial.begin(9600);
     Serial.println("testing seventeen cde");
-    Serial.println("Sat 15 Jun 22:55:41 UTC 2024  GORSE  DAKMAR  KHUFU  DRY-PATCH");
+    Serial.println(
+        "Sat 15 Jun 22:55:41 UTC 2024  GORSE  DAKMAR  KHUFU  DRY-PATCH");
     Serial.print("current timestamp: ");
     Serial.println(__TIMESTAMP__);
     delay(1555);
 }
 
+
 void setup() {
     setup_serial();
     psp = &pstack[PSTACKSIZE - 1];
+    rsp = &rstack[RSTACKSIZE - 1];
     do_the_thing(); // _Gerry_ a gus van san film
+
+    int new_rtos=0xCEEDFEED;
+    rpush(new_rtos);
+
+#if 0
     Serial.println(" going into the trap here:");
     Serial.println("");
     trapped();
+#endif
+
     uint8_t index = 0;
     print_rsp(index);
+    trapped();
     signoff_msg();
     while (-1)
         ;

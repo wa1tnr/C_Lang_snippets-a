@@ -272,8 +272,11 @@ void setup() {
     trapped();
 #endif
 
-    uint8_t index = 0;
-    print_rsp(index);
+    print_cr();
+    uint8_t index = 2; print_rsp(index);
+    index = 1; print_rsp(index);
+    index = 0; print_rsp(index);
+    print_cr();
     trapped();
     signoff_msg();
     while (-1)

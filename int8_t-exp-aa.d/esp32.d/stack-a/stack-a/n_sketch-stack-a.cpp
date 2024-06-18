@@ -18,8 +18,13 @@ unsigned int *psp;
 
 void push(int new_tos) {
     int pspInt;
+    int old_psp_address = (int) &psp;
+    print_cr();
+    Serial.print("\tDARFold_psp_address: ");
+    Serial.println(old_psp_address, HEX);
     --psp; // make a new space on the stack
     psp[0] = new_tos;
+    print_cr();
 
     pspInt = (int)&*psp;
     Serial.print("\t&*psp: ");
@@ -53,14 +58,25 @@ void print_psp_addr_val(uint8_t index) {
 }
 #endif
 
+void groovy_fkn_report_a() {
+    Serial.println("\thex 3FFC1CBC 3FFC1BC0 - . FC  ok");
+    Serial.println("\thex FC decimal . 252  ok");
+    Serial.println("\thex FC 4 / . 3F  ok");
+    Serial.println("\thex 3F decimal . 63  ok");
+}
+
 void test_aa() {
     int a = 5;
     push(a);
     print_psp_addr_val(0);
     Serial.println("");
     int b = 3;
+
+    groovy_fkn_report_a();
+
     push(b);
     print_psp_addr_val(0);
+    print_cr();
     int c = pop();
     Serial.print("LINE 65: c = ");
     Serial.println(c);
@@ -77,8 +93,6 @@ void tests() { test_aa(); }
 void setup_serial() {
     Serial.begin(9600);
     Serial.print("\r\nok\r\n");
-    Serial.print("mok\r\n");
-    Serial.print("pok\r\n");
 }
 
 void setup() {
@@ -97,7 +111,6 @@ void setup() {
     int pstackq = pstack[pstack_index];
     snprintf(buffer, sizeof(buffer), "%8X", pstackq);
     print_me();
-    print_cr();
     print_cr();
 
     tests();

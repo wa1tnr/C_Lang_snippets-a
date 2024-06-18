@@ -39,7 +39,7 @@ int pop() {
 
 void print_psp_addr_val(uint8_t index) {
     unsigned int *psp_rs = &psp[index];
-    int address = (unsigned int)psp_rs;
+    int address = ((unsigned int)psp_rs - 4);
     snprintf(buffer, sizeof(buffer), "\trufus_psp[%d]: %12X: ", index, address);
     print_me();
 
@@ -55,8 +55,11 @@ void print_psp_addr_val(uint8_t index) {
 void test_aa() {
     int a = 5;
     push(a);
+    print_psp_addr_val(0);
+    Serial.println("");
     int b = 3;
     push(b);
+    print_psp_addr_val(0);
     int c = pop();
     Serial.print("LINE 55: c = ");
     Serial.println(c);

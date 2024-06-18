@@ -48,6 +48,7 @@ void print_psp_addr_val(uint8_t index) {
     print_me();
     print_cr();
 }
+
 #ifdef __cplusplus
 }
 #endif
@@ -61,13 +62,13 @@ void test_aa() {
     push(b);
     print_psp_addr_val(0);
     int c = pop();
-    Serial.print("LINE 55: c = ");
+    Serial.print("LINE 65: c = ");
     Serial.println(c);
     int d = pop();
-    Serial.print("LINE 58: d = ");
+    Serial.print("LINE 68: d = ");
     Serial.println(d);
     int e = c * d;
-    Serial.print("LINE 62: e = c * d = ");
+    Serial.print("LINE 72: e = c * d = ");
     Serial.println(e);
 }
 
@@ -82,7 +83,23 @@ void setup_serial() {
 
 void setup() {
     setup_serial();
-    psp = &pstack[PSTACKSIZE - 1];
+
+
+    int pstack_index = PSTACKSIZE -1;
+    psp = &pstack[pstack_index];
+
+    unsigned int *pstack_rs = &pstack[pstack_index];
+    int address = ((unsigned int)pstack_rs - 4);
+
+    snprintf(buffer, sizeof(buffer), "\trufus_pstack[%d]: %12X: ", pstack_index, address);
+    print_me();
+
+    int pstackq = pstack[pstack_index];
+    snprintf(buffer, sizeof(buffer), "%8X", pstackq);
+    print_me();
+    print_cr();
+    print_cr();
+
     tests();
 }
 

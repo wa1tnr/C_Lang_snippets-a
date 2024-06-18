@@ -21,14 +21,13 @@ void push(int new_tos) {
     --psp; // make a new space on the stack
     psp[0] = new_tos;
 
-    pspInt = (int) &*psp;
+    pspInt = (int)&*psp;
     Serial.print("\t&*psp: ");
     Serial.println(pspInt, HEX);
 
-    pspInt = (int) *psp;
+    pspInt = (int)*psp;
     Serial.print("\t*psp: ");
     Serial.println(pspInt, HEX);
-
 }
 
 int pop() {
@@ -41,8 +40,7 @@ int pop() {
 void print_psp_addr_val(uint8_t index) {
     unsigned int *psp_rs = &psp[index];
     int address = (unsigned int)psp_rs;
-    snprintf(buffer, sizeof(buffer), "\trufus_psp[%d]: %12X: ", index,
-             address);
+    snprintf(buffer, sizeof(buffer), "\trufus_psp[%d]: %12X: ", index, address);
     print_me();
 
     int pq = psp[index];
@@ -55,8 +53,10 @@ void print_psp_addr_val(uint8_t index) {
 #endif
 
 void test_aa() {
-    int a = 5; push(a);
-    int b = 3; push(b);
+    int a = 5;
+    push(a);
+    int b = 3;
+    push(b);
     int c = pop();
     Serial.print("LINE 55: c = ");
     Serial.println(c);
@@ -68,9 +68,7 @@ void test_aa() {
     Serial.println(e);
 }
 
-void tests() {
-    test_aa();
-}
+void tests() { test_aa(); }
 
 void setup_serial() {
     Serial.begin(9600);
@@ -81,10 +79,10 @@ void setup_serial() {
 
 void setup() {
     setup_serial();
-    psp = &pstack[PSTACKSIZE-1];
+    psp = &pstack[PSTACKSIZE - 1];
     tests();
 }
 
-void loop() { }
+void loop() {}
 
 // end.

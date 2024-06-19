@@ -22,13 +22,9 @@ void push(int new_tos) {
     int old_psp_address = (int)&psp;
     print_cr();
 
+    Serial.println("\tLINE 25: looks like empty stack psp address:");
 
-    // says: old_psp_address: 3FFC1BC0
-
-    Serial.println("\tLINE 28: looks like empty stack psp address:");
-
-
-    Serial.print("\told_psp_address: ");
+    Serial.print("\tLINE 27: old_psp_address: ");
     Serial.println(old_psp_address, HEX);
 
     --psp; // make a new space on the stack
@@ -37,11 +33,11 @@ void push(int new_tos) {
 
     pspInt = (int)psp;
 
-    Serial.print("\tpsp: ");
+    Serial.print("\tLINE 36: psp: ");
     Serial.println(pspInt, HEX);
 
     pspInt = (int)*psp;
-    Serial.print("\t*psp: ");
+    Serial.print("\tLINE 40: *psp: ");
     Serial.println(pspInt, HEX);
 }
 
@@ -55,7 +51,8 @@ int pop() {
 void print_psp_addr_val(uint8_t index) {
     unsigned int *psp_rs = &psp[index];
     int address = ((unsigned int)psp_rs - 4);
-    snprintf(buffer, sizeof(buffer), "\trufus_psp[%d]: %12X: ", index, address);
+    snprintf(buffer, sizeof(buffer), "\tLINE 54: rufus_psp[%d]: %12X: ", index,
+             address);
     print_me();
 
     int pq = psp[index];
@@ -94,7 +91,6 @@ void test_aa() {
 LINE 81: test_aa
         rufus_psp[0]:     3FFC1CB8:        5
 #endif
-
 
     Serial.println("");
     int b = 3;

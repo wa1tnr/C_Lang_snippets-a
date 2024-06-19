@@ -19,15 +19,25 @@ unsigned int *psp;
 
 void push(int new_tos) {
     int pspInt;
-    int old_psp_address = (int) &psp;
+    int old_psp_address = (int)&psp;
     print_cr();
+
+
+    // says: old_psp_address: 3FFC1BC0
+
+    Serial.println("\tLINE 28: looks like empty stack psp address:");
+
+
     Serial.print("\told_psp_address: ");
     Serial.println(old_psp_address, HEX);
+
+
+
     --psp; // make a new space on the stack
     psp[0] = new_tos;
     print_cr();
 
-    pspInt = (int) psp;
+    pspInt = (int)psp;
 
     Serial.print("\tpsp: ");
     Serial.println(pspInt, HEX);
@@ -100,8 +110,7 @@ void setup_serial() {
 void setup() {
     setup_serial();
 
-
-    int pstack_index = PSTACKSIZE -1;
+    int pstack_index = PSTACKSIZE - 1;
     psp = &pstack[pstack_index];
 
     unsigned int *pstack_rs = &pstack[pstack_index];
@@ -111,7 +120,8 @@ void setup() {
 
     print_me();
 
-    snprintf(buffer, sizeof(buffer), " - rufus_pstack[%d]: %12X: ", pstack_index, address);
+    snprintf(buffer, sizeof(buffer),
+             "\t - rufus_pstack[%d]: %12X: ", pstack_index, address);
     print_me();
 
     int pstackq = pstack[pstack_index];

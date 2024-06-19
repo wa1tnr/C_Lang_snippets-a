@@ -5,6 +5,7 @@
 #define PSTACKSIZE 64 /* 64 cells */ /* forth.h */
 
 char buffer[64];
+#define EOL "\r\n"
 
 void print_me() { Serial.print(buffer); }
 void print_cr() { Serial.println(""); }
@@ -20,26 +21,15 @@ void push(int new_tos) {
     int pspInt;
     int old_psp_address = (int) &psp;
     print_cr();
-    Serial.print("\tDARFold_psp_address: ");
+    Serial.print("\told_psp_address: ");
     Serial.println(old_psp_address, HEX);
     --psp; // make a new space on the stack
     psp[0] = new_tos;
     print_cr();
 
-    // 1. pspInt = (int) psp;
-
-    // 2. unsigned int* ptr = psp;
-    //    pspInt = (int) ptr;
-
-    // 3. pspInt = (int) psp;
-
-    // 4. unchanged after factoring. ;)
-
     pspInt = (int) psp;
 
-    // 5. is there a way to do that without a cast
-
-    Serial.print("\t&*psp: ");
+    Serial.print("\tpsp: ");
     Serial.println(pspInt, HEX);
 
     pspInt = (int)*psp;
@@ -117,7 +107,11 @@ void setup() {
     unsigned int *pstack_rs = &pstack[pstack_index];
     int address = ((unsigned int)pstack_rs - 4);
 
-    snprintf(buffer, sizeof(buffer), "\trufus_pstack[%d]: %12X: ", pstack_index, address);
+    snprintf(buffer, sizeof(buffer), "\tLINE 109: says 1CBC (highest)%s", EOL);
+
+    print_me();
+
+    snprintf(buffer, sizeof(buffer), " - rufus_pstack[%d]: %12X: ", pstack_index, address);
     print_me();
 
     int pstackq = pstack[pstack_index];

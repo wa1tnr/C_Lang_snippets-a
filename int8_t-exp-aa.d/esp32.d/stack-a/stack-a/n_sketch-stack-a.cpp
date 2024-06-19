@@ -26,7 +26,19 @@ void push(int new_tos) {
     psp[0] = new_tos;
     print_cr();
 
-    pspInt = (int)&*psp;
+    // 1. pspInt = (int) psp;
+
+    // 2. unsigned int* ptr = psp;
+    //    pspInt = (int) ptr;
+
+    // 3. pspInt = (int) psp;
+
+    // 4. unchanged after factoring. ;)
+
+    pspInt = (int) psp;
+
+    // 5. is there a way to do that without a cast
+
     Serial.print("\t&*psp: ");
     Serial.println(pspInt, HEX);
 

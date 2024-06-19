@@ -27,6 +27,8 @@ void push(int new_tos) {
     Serial.print("\tLINE 27: old_psp_address: ");
     Serial.println(old_psp_address, HEX);
 
+    Serial.print("\tLINE 30: likely:  rufus_pstack[0] (or proximal to it)");
+
     --psp; // make a new space on the stack
     psp[0] = new_tos;
     print_cr();
@@ -127,7 +129,7 @@ void setup() {
     unsigned int *pstack_rs = &pstack[pstack_index];
     int address = ((unsigned int)pstack_rs - 4);
 
-    snprintf(buffer, sizeof(buffer), "\tLINE 109: says 1CBC (highest)%s", EOL);
+    snprintf(buffer, sizeof(buffer), "\tLINE 130: says 1CBC (highest)%s", EOL);
 
     print_me();
 

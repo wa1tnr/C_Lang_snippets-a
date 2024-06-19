@@ -31,8 +31,6 @@ void push(int new_tos) {
     Serial.print("\told_psp_address: ");
     Serial.println(old_psp_address, HEX);
 
-
-
     --psp; // make a new space on the stack
     psp[0] = new_tos;
     print_cr();
@@ -80,7 +78,24 @@ void groovy_fkn_report_a() {
 void test_aa() {
     int a = 5;
     push(a);
+    Serial.println("LINE 81: test_aa");
     print_psp_addr_val(0);
+
+    Serial.print(EOL);
+
+    Serial.println("SYNOPSIS:");
+
+    Serial.print("\tpsp: 3FFC1CBC  .. is .. ");
+
+    Serial.println("pstack[63]");
+
+    Serial.print("\t*psp: 5  .. is .. ");
+#if 0
+LINE 81: test_aa
+        rufus_psp[0]:     3FFC1CB8:        5
+#endif
+
+
     Serial.println("");
     int b = 3;
 

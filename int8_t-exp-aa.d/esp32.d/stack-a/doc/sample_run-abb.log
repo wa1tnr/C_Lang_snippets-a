@@ -1,0 +1,42 @@
+Wed 19 Jun 04:12:15 UTC 2024
+
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1156
+load:0x40078000,len:11456
+ho 0 tail 12 room 4
+load:0x40080400,len:2972
+entry 0x400805dc
+
+ok
+        LINE 109: says 1CBC (highest)
+         - rufus_pstack[63]:     3FFC1CBC:        0
+
+        LINE 28: looks like empty stack psp address:
+        old_psp_address: 3FFC1BC0
+
+        psp: 3FFC1CBC
+        *psp: 5
+        rufus_psp[0]:     3FFC1CB8:        5
+
+        hex 3FFC1CBC 3FFC1BC0 - . FC  ok
+        hex FC decimal . 252  ok
+        hex FC 4 / . 3F  ok
+        hex 3F decimal . 63  ok
+
+        LINE 28: looks like empty stack psp address:
+        old_psp_address: 3FFC1BC0
+
+        psp: 3FFC1CB8
+        *psp: 3
+        rufus_psp[0]:     3FFC1CB4:        3
+
+LINE 65: c = 3
+LINE 68: d = 5
+LINE 72: e = c * d = 15
+
+end.

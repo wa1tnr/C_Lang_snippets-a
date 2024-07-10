@@ -1,0 +1,40 @@
+
+# arduino:renesas_uno:unor4wifi
+
+mktargeted:	clean
+	@echo compile for uno r4 unor4wifi
+	@arduino-cli compile --fqbn arduino:renesas_uno:unor4wifi
+
+id_board:
+	  arduino-cli board list | cat -n | ag wifi | sed 5q
+
+comm:
+	@./comm_program.sh /dev/ttyACM0
+
+terminal:	comm
+
+git_status:
+	@git status | cat | tr -d '\t'
+
+pwd:
+	@echo -n '  ..'
+	@pwd | cut -b 27-
+
+sleeper:
+	@date
+	@sleep 1
+
+upload:
+	@echo upload to uno r4 unor4wifi
+	@arduino-cli upload --fqbn arduino:renesas_uno:unor4wifi -p /dev/ttyACM0
+
+# @arduino-cli upload --fqbn arduino:renesas_uno:minima -p /dev/ttyACM0
+
+install:	upload sleeper comm
+	@echo done with request to make install
+
+clean:
+	@rm -rf /tmp/arduino/cores ; rm -rf /tmp/arduino/sketches
+	@echo CLEAN.
+
+# end.

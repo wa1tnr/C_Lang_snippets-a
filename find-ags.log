@@ -1,0 +1,3 @@
+
+   find . | ag '.*\.c$'  # very good finds *.c filenames
+

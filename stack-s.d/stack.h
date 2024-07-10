@@ -1,9 +1,20 @@
 /* stack.h - shattuck's stack */
-/* Tue  9 Jul 21:54:46 UTC 2024 */
+/* Wed 10 Jul 05:03:10 UTC 2024 */
 
-/* to port: */
-
+/*
   https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44
 
-// end.
+*/
 
+/* This example code is in the public domain */
+
+/* not all will need an extern prototype */
+extern const int STKSIZE;
+extern const int STKMASK;
+extern int stack[];
+extern int p;
+#define TOS stack[p]
+extern void push(int n);
+extern int pop();
+
+/* end. */

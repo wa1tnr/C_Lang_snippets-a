@@ -1,5 +1,6 @@
 /* hoosg.h library or include */
 
+#include <Arduino.h>
 #include "timeWasters.h"
 
 const int pinLED = 8;

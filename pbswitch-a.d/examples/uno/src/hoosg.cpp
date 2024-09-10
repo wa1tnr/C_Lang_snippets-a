@@ -1,11 +1,12 @@
-/* hoosg.h library or include */
+/* hoosg.cpp library */
 
 #include <Arduino.h>
 #include "timeWasters.h"
 
+#define SHOWN_BLINKS 7
+
 const int pinLED = 8;
 const int pbSwitch = 9;
-#define SHOWN_BLINKS 7
 const int testBlinkCount = (SHOWN_BLINKS * 2) + 2;
 
 bool state = true;
@@ -55,6 +56,6 @@ void testLED() {
     ;
 }
 
-/* Mon  9 Sep 19:52:08 UTC 2024 */
-/* kanamaris */
+/* Mon  9 Sep 23:59:48 UTC 2024 */
+/* kuklaFranOllie kanamaris */
 /* end */

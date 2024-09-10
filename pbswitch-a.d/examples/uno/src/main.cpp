@@ -1,20 +1,7 @@
 /* main.cpp - main program 9 September 2024 */
-
-#include "hoosg.h"
 #include <Arduino.h>
-
-extern boolean state;
-extern void toggleLED();
-extern void waitLess();
-extern void waitSome();
-extern void blink();
-extern void initSerial();
-extern void initGPIO();
-
-/* result: LED properly wired */
-extern void testLED();
-// extern int readPbSwitch();
-extern bool scanPbSwitch();
+#include "hoosg.h"
+// #include "timeWasters.h"
 
 void setup() {
   initSerial();

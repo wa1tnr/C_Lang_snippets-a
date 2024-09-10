@@ -1,5 +1,6 @@
-/* timeWasters.h */
+/* timeWasters.cpp */
 
+// not necessary // #include <Arduino.h>
 void nopp() {
   // empty function
 }

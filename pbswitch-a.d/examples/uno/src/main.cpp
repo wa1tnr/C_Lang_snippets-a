@@ -1,7 +1,6 @@
 /* main.cpp - main program 9 September 2024 */
-#include <Arduino.h>
 #include "hoosg.h"
-// #include "timeWasters.h"
+#include <Arduino.h>
 
 void setup() {
   initSerial();
@@ -9,8 +8,6 @@ void setup() {
   blink();
   Serial.println(" blink() already ran.");
 }
-
-void newLine() { Serial.write('\n'); }
 
 int counter = -1;
 

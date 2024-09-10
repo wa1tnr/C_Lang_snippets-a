@@ -1,7 +1,8 @@
-/* pbswitch.cpp - was main.cpp - 10 September 2024 */
+/* pbswitch.cpp  10 September 2024 */
 
 #include <Arduino.h>
 #include "hoosg.h"
+#include "consts.h"
 
 int counter = -1;
 int hbeat = -1;
@@ -36,6 +37,11 @@ void actuate() {
   newLine();
   Serial.print(counter);
   Serial.print("     TADA");
+}
+
+bool scanPbSwitch() {
+  bool pbSwState = digitalRead(pbSwitch);
+  return pbSwState;
 }
 
 bool readingSwitch() {

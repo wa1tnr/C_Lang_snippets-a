@@ -1,13 +1,8 @@
 /* hoosg.cpp library */
 
-#include "timeWasters.h"
 #include <Arduino.h>
-
-#define SHOWN_BLINKS 7
-
-const int pinLED = 8;
-const int pbSwitch = 9;
-const int testBlinkCount = (SHOWN_BLINKS * 2) + 2;
+#include "consts.h"
+#include "timeWasters.h"
 
 void newLine() {
   Serial.write('\r');
@@ -25,11 +20,6 @@ void sendToLEDDirect() { toggleLED(); }
 
 void debouncePbSw() {
   delay(10); // TODO - cheating!
-}
-
-bool scanPbSwitch() {
-  bool pbSwState = digitalRead(pbSwitch);
-  return pbSwState;
 }
 
 void blink() {

@@ -28,7 +28,7 @@ void debouncePbSw() {
 }
 
 bool scanPbSwitch() {
-  int pbSwState = digitalRead(pbSwitch);
+  bool pbSwState = digitalRead(pbSwitch);
   return pbSwState;
 }
 

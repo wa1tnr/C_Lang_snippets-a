@@ -1,13 +1,18 @@
 /* hoosg.cpp library */
 
-#include <Arduino.h>
 #include "timeWasters.h"
+#include <Arduino.h>
 
 #define SHOWN_BLINKS 7
 
 const int pinLED = 8;
 const int pbSwitch = 9;
 const int testBlinkCount = (SHOWN_BLINKS * 2) + 2;
+
+void newLine() {
+  Serial.write('\r');
+  Serial.write('\n');
+}
 
 bool state = true;
 
@@ -46,7 +51,7 @@ void initSerial() {
   Serial.write(' ');
   Serial.print(__TIME__);
   Serial.write('z');
-  Serial.print("\n\n");
+  newLine();
 }
 
 /* result: LED properly wired */

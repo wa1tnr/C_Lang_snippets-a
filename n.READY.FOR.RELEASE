@@ -1,7 +1,7 @@
-0.1.0-pre-alpha READY.FOR.RELEASE
+0.1.1-pre-alpha READY.FOR.RELEASE
 
-last commit d2348a5ab24e7f7994a933e9b088eed935f688ba
+last commit e1e51858887323ad721b12a83d40353a9bc663de
 
-Date:   Tue Jun 11 21:12:42 UTC 2024
+Date:   Tue Sep 10 01:43:32 UTC 2024
 
-    back-ported distclean target to -ee
+    likely fully operational program

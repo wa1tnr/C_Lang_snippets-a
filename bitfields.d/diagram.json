@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "author": "Thu 16 Jan 18:43:15 UTC 2025  mardol x-b2a-test-only-16-jan",
+  "author": "Thu 16 Jan 20:40:04 UTC 2025  mardol x-b2a-test-only-16-jan",
   "editor": "wokwi",
   "parts": [
     {
@@ -197,7 +197,7 @@
       "top": -240,
       "left": -448,
       "attrs": {
-        "text": "Thu 16 Jan 18:52z mardol x-b2b-"
+        "text": "Thu 16 Jan 20:40z mardol x-b2b-"
       }
     },
     {
@@ -234,11 +234,89 @@
         "value": "1000"
       }
     },
+
+
+
+
+
+
     {
       "type": "wokwi-resistor",
       "id": "r11",
       "top": -81.6,
       "left": 287.45,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+
+    },
+
+    {
+      "type": "wokwi-resistor",
+      "id": "r12",
+      "top": -81.6,
+      "left": 277.45,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+
+    },
+
+    {
+      "type": "wokwi-resistor",
+      "id": "r13",
+      "top": -81.6,
+      "left": 267.45,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+
+    },
+
+    {
+      "type": "wokwi-resistor",
+      "id": "r14",
+      "top": -81.6,
+      "left": 257.45,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+
+    },
+
+    {
+      "type": "wokwi-resistor",
+      "id": "r15",
+      "top": -81.6,
+      "left": 247.45,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+
+    },
+
+    {
+      "type": "wokwi-resistor",
+      "id": "r16",
+      "top": -81.6,
+      "left": 237.45,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+
+    },
+
+    {
+      "type": "wokwi-resistor",
+      "id": "r17",
+      "top": -81.6,
+      "left": 227.45,
       "rotate": 90,
       "attrs": {
         "value": "1000"
@@ -507,6 +585,16 @@
         "h201.6"
       ]
     ],
+
+
+
+
+
+
+
+
+
+
     [
       "j1:J",
       "r11:2",
@@ -515,6 +603,78 @@
         "v-48",
         "h-19.2"
       ]
+    ],
+
+
+
+    [
+      "j1:J",
+      "r11:2",
+      "orange",
+      [
+        "v-48",
+        "h-19.2"
+      ]
+    ],
+
+
+
+    [
+      "j1:J",
+      "r11:2",
+      "yellow",
+      [
+        "v-48",
+        "h-19.2"
+      ]
+    ],
+
+
+
+    [
+      "j1:J",
+      "r11:2",
+      "green",
+      [
+        "v-48",
+        "h-19.2"
+      ]
+    ],
+
+
+
+    [
+      "j1:J",
+      "r11:2",
+      "blue",
+      [
+        "v-48",
+        "h-19.2"
+      ]
+    ],
+
+
+
+    [
+      "j1:J",
+      "r11:2",
+      "grey",
+      [
+        "v-48",
+        "h-19.2"
+      ]
+    ],
+
+    [
+      "j1:J",
+      "r11:2",
+      "white",
+      [
+        "v-48",
+        "h-19.2"
+      ]
+
+
     ]
   ],
   "dependencies": {}

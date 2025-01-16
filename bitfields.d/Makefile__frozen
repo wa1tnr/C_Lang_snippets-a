@@ -79,6 +79,14 @@ fancygits:
 
 # git ls-files --error-unmatch ${1}
 
+# find all tabs and remove them in the status, to help form .gitignore entries
+git_status:
+	@git status | cat | tr -d '\t'
+
+pwd:
+	@echo -n '  ..'
+	@pwd | cut -b 27-
+
 clean:
 	pio run -t clean
 

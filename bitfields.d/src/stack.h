@@ -9,12 +9,15 @@
 /* This example code is in the public domain */
 
 /* not all will need an extern prototype */
-extern const int STKSIZE;
-extern const int STKMASK;
-extern int stack[];
-extern int p;
-#define TOS stack[p]
-extern void push(int n);
-extern int pop();
+// extern const int STKSIZE;
+// extern const int STKMASK;
+// extern int stack[];
+// extern int p;
+// #define TOS stack[p]
+// extern void push(int n);
+void push(int n);
+
+// extern int pop();
+int pop();
 
 /* end. */

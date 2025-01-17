@@ -2,7 +2,6 @@
 /* Wed 10 Jul 05:03:10 UTC 2024 */
 
 #include <Arduino.h>
-
 /* https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44 */
 
 /* This example code is in the public domain */
@@ -15,7 +14,7 @@
 
 // _#_ define STKSIZE 8
 const int STKSIZE = 8;
-const int STKMASK = 7;
+int STKMASK = 7;
 int stack[STKSIZE];
 int p = 0;
 

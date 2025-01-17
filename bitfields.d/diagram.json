@@ -74,7 +74,7 @@
       "id": "led1",
       "top": -240,
       "left": -448,
-      "attrs": { "text": "Thu 16 Jan 21:54z mardol x-b2c-" }
+      "attrs": { "text": "Thu 16 Jan 23:24z mardol x-b2c-" }
     },
     { "type": "wokwi-dip-switch-8", "id": "sw1", "top": -195.3, "left": 59.1, "attrs": {} },
     { "type": "wokwi-junction", "id": "j1", "top": 14.4, "left": 331.2, "attrs": {} },
@@ -144,6 +144,10 @@
     },
     { "type": "wokwi-gnd", "id": "gnd1", "top": 19.2, "left": 325.8, "attrs": {} },
     { "type": "wokwi-vcc", "id": "vcc1", "top": -268.04, "left": 57.6, "attrs": {} },
+
+
+
+
     { "type": "wokwi-junction", "id": "j2", "top": -235.2, "left": 62.4, "attrs": {} }
   ],
   "connections": [
@@ -158,11 +162,11 @@
     [ "uno:8", "r6:1", "blue", [ "h30", "v1" ] ],
     [ "uno:9", "r7:1", "violet", [ "h33", "v1" ] ],
     [ "uno:A5", "r9:1", "#112299", [ "h-20", "v40", "h580", "v-270", "h0" ] ],
-    [ "uno:A4", "r10:1", "brown", [ "h-30", "v60", "h600", "v-285", "h0" ] ],
-    [ "uno:A3", "r11:1", "red", [ "h-40", "v80", "h620", "v-300", "h0" ] ],
-    [ "uno:A2", "r12:1", "orange", [ "h-50", "v100", "h640", "v-315", "h0" ] ],
-    [ "uno:A1", "r13:1", "yellow", [ "h-60", "v120", "h660", "v-330", "h0" ] ],
-    [ "uno:A0", "r14:1", "limegreen", [ "h-70", "v140", "h680", "v-345", "h0" ] ],
+    [ "uno:A4", "r10:1", "brown", [ "h-30", "v54", "h600", "v-285", "h0" ] ],
+    [ "uno:A3", "r11:1", "red", [ "h-40", "v68", "h620", "v-300", "h0" ] ],
+    [ "uno:A2", "r12:1", "orange", [ "h-50", "v82", "h640", "v-315", "h0" ] ],
+    [ "uno:A1", "r13:1", "yellow", [ "h-60", "v96", "h660", "v-330", "h0" ] ],
+    [ "uno:A0", "r14:1", "limegreen", [ "h-70", "v110", "h680", "v-345", "h0" ] ],
     [ "r2:2", "led2:A", "red", [ "h1" ] ],
     [ "r3:2", "led3:A", "orange", [ "h1" ] ],
     [ "r4:2", "led4:A", "yellow", [ "h24", "v-72", "h-24" ] ],
@@ -195,9 +199,10 @@
     [ "j1:J", "r15:2", "blue", [ "v-48", "h-19.2" ] ],
     [ "j1:J", "r16:2", "violet", [ "v-48", "h-19.2" ] ],
     [ "j1:J", "r9:2", "black", [ "v0" ] ],
-
     [ "uno:GND.1", "gnd1:GND", "", [ "h0" ] ],
+    [ "uno:GND.1", "j1:J", "", [ "h0" ] ],
 
+    [ "j2:J", "vcc1:VCC", "red", [ "v0" ] ],
     [ "j2:J", "sw1:1b", "red", [ "v0" ] ],
     [ "j2:J", "sw1:2b", "red", [ "v30", "h20" ] ],
     [ "j2:J", "sw1:3b", "red", [ "v30", "h20" ] ],
@@ -206,6 +211,7 @@
     [ "j2:J", "sw1:6b", "red", [ "v30", "h20" ] ],
     [ "j2:J", "sw1:7b", "red", [ "v30", "h20" ] ],
     [ "j2:J", "sw1:8b", "red", [ "v30", "h20" ] ],
+    [ "uno:5V", "vcc1:VCC", "", [ "h-30", "v1" ] ],
     [ "uno:5V", "j2:J", "", [ "h-30", "v1" ] ]
   ],
   "dependencies": {}

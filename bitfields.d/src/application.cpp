@@ -15,9 +15,22 @@ struct Date {
    unsigned nWeekDay  : 3;    // 0..7   (3 bits)
    unsigned nMonthDay : 6;    // 0..31  (6 bits)
    unsigned           : 0;    // Force alignment to next boundary.
-   unsigned nMonth    : 5;    // 0..12  (5 bits)
-   unsigned nYear     : 8;    // 0..100 (8 bits)
+   unsigned nMonth    : 4;    // 0..12  (4 bits)
+   unsigned nYear     : 8;    // 0..100 (7 bits)
 };
+
+Date dateHeld;
+
+void _pushDates() {
+  dateHeld.nWeekDay = 4;
+  dateHeld.nMonthDay = 23;
+  dateHeld.nMonth = 1;
+  dateHeld.nYear = 24;
+  push(dateHeld.nWeekDay);
+  push(dateHeld.nMonthDay);
+  push(dateHeld.nMonth);
+  push(2000 + dateHeld.nYear);
+}
 
 void _plus() {
   int a = pop();
@@ -33,17 +46,31 @@ void printTOS() {
   Serial.print(' ');
 }
 
+void _CRLF() {
+  Serial.write('\r');
+  Serial.write('\n');
+}
+
+void _clrStack() {
+  for (bytee element = STKMASK + 1 ; element > 0; element--) {
+    push(0);
+  }
+}
+
 void _dotS() {
+  _CRLF();
   Serial.print(" .s:");
   for (bytee element = STKMASK + 1 ; element > 0; element--)
   {
     Serial.write(' ');
     Serial.print(pop());
   }
-    Serial.write(' ');
+  _CRLF();
+  //  Serial.write(' ');
 }
 
 void stackJob() {
+  _clrStack();
   push(foo);
   _drop();
   push(17);
@@ -53,6 +80,7 @@ void stackJob() {
   _plus();
   printTOS();
   _drop();
+  _pushDates();
   _dotS();
 }
 
@@ -99,7 +127,7 @@ void switchJob() {
 void job() {
   ledsJob();
   stackJob();
-  switchJob();
+  // switchJob();
 }
 
 void setupGPIO() {

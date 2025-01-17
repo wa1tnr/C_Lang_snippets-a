@@ -2,7 +2,8 @@
 /* Wed 10 Jul 05:03:10 UTC 2024 */
 
 #include <Arduino.h>
-/* https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44 */
+/* https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44
+ */
 
 /* This example code is in the public domain */
 
@@ -23,15 +24,15 @@ int p = 0;
 
 /* push n to top of data stack */
 void push(int n) {
-  p = (p + 1)& STKMASK;
-  TOS = n;
+    p = (p + 1) & STKMASK;
+    TOS = n;
 }
 
 /* return top of stack */
 int pop() {
-  int n = TOS;
-  p = (p - 1)& STKMASK;
-  return n;
+    int n = TOS;
+    p = (p - 1) & STKMASK;
+    return n;
 }
 
 /* end. */

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "author": "Fri 17 Jan 18:05:18 UTC 2025  mardol x-b2e-test-only-17-jan",
+  "author": "Fri 17 Jan 18:23:08 UTC 2025  mardol x-b2f-test-only-17-jan",
   "editor": "wokwi",
   "parts": [
     {
@@ -42,6 +42,13 @@
     {
       "type": "wokwi-text",
       "id": "led1",
+      "top": -237,
+      "left": 125,
+      "attrs": { "text": "The first two DIP switches are inactive." }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "led1",
       "top": 67,
       "left": 15,
       "attrs": { "text": "using D0 or D1 would break a real project." }
@@ -74,7 +81,7 @@
       "id": "led1",
       "top": -240,
       "left": -448,
-      "attrs": { "text": "Fri 17 Jan 18:05z mardol x-b2e-" }
+      "attrs": { "text": "Fri 17 Jan 18:23z mardol x-b2f-" }
     },
     { "type": "wokwi-dip-switch-8", "id": "sw1", "top": -195.3, "left": 59.1, "attrs": {} },
     { "type": "wokwi-junction", "id": "j1", "top": 14.4, "left": 331.2, "attrs": {} },
@@ -144,10 +151,6 @@
     },
     { "type": "wokwi-gnd", "id": "gnd1", "top": 19.2, "left": 325.8, "attrs": {} },
     { "type": "wokwi-vcc", "id": "vcc1", "top": -268.04, "left": 57.6, "attrs": {} },
-
-
-
-
     { "type": "wokwi-junction", "id": "j2", "top": -235.2, "left": 62.4, "attrs": {} }
   ],
   "connections": [

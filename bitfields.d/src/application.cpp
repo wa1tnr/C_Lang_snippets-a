@@ -2,6 +2,7 @@
 /* Wed 10 Jul 07:59:06 UTC 2024 */
 
 #include <Arduino.h>
+#include "stack.h"
 
 const byte pinMAX = 10;
 const byte pinMIN = 1;
@@ -10,17 +11,13 @@ typedef unsigned char bytee;
 
 bytee foo = 3;
 
-extern int pop();
-extern void push(int n);
-extern int stack[];
-extern int p;
-#define TOSb stack[p]
-
-extern int STKMASK;
-
 void _plus() {
   int a = pop();
   push(a + pop());
+}
+
+void _drop() {
+  pop();
 }
 
 void printTOS() {
@@ -29,50 +26,25 @@ void printTOS() {
 }
 
 void _dotS() {
-  push(6);
-  push(5);
-  push(4);
-  push(3);
-  push(2);
-  push(1);
-
-  push(-99);
-  push(-98);
-  push(-97);
-
-  Serial.println("\n newlineA:");
-
-  Serial.print(" .s:");
-  for (bytee element = STKMASK + 1 ; element > 0; element--)
-  {
-    Serial.write(' ');
-    Serial.write('e');
-    Serial.print(pop());
-    Serial.write('p');
-  }
-  Serial.println("\n newlineB:");
-  delay(2200);
-  push(-55);
-  push(-54);
-
   Serial.print(" .s:");
   for (bytee element = STKMASK + 1 ; element > 0; element--)
   {
     Serial.write(' ');
     Serial.print(pop());
   }
-  Serial.println();
+    Serial.write(' ');
 }
 
 void stackJob() {
   push(foo);
+  _drop();
   push(17);
   printTOS();
   push(23);
   printTOS();
   _plus();
   printTOS();
-  Serial.print("\n stack report:   ");
+  _drop();
   _dotS();
 }
 
@@ -118,7 +90,6 @@ void switchJob() {
 
 void job() {
   ledsJob();
-  // Serial.print(" aaa "); // one dot all iterations (1:8)
   stackJob();
   switchJob();
 }
@@ -139,7 +110,6 @@ void setup() {
   delay(700);
   setupGPIO();
   setupSerial();
-  // Serial.println(" hello ww ");
   for (;;) {
     job();
   }

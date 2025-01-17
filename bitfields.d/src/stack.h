@@ -15,9 +15,17 @@
 // extern int p;
 // #define TOS stack[p]
 // extern void push(int n);
-void push(int n);
+// void push(int n);
 
 // extern int pop();
-int pop();
+// int pop();
 
 /* end. */
+
+extern int pop();
+extern void push(int n);
+extern int stack[];
+extern int p;
+#define TOSb stack[p]
+
+extern int STKMASK;

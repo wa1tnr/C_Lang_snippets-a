@@ -11,6 +11,14 @@ typedef unsigned char bytee;
 
 bytee foo = 3;
 
+struct Date {
+   unsigned nWeekDay  : 3;    // 0..7   (3 bits)
+   unsigned nMonthDay : 6;    // 0..31  (6 bits)
+   unsigned           : 0;    // Force alignment to next boundary.
+   unsigned nMonth    : 5;    // 0..12  (5 bits)
+   unsigned nYear     : 8;    // 0..100 (8 bits)
+};
+
 void _plus() {
   int a = pop();
   push(a + pop());

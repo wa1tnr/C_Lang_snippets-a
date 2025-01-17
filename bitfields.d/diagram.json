@@ -42,15 +42,15 @@
     {
       "type": "wokwi-text",
       "id": "led1",
-      "top": 86,
-      "left": -51,
+      "top": 67,
+      "left": 15,
       "attrs": { "text": "using D0 or D1 would break a real project." }
     },
     {
       "type": "wokwi-text",
       "id": "led1",
-      "top": 104,
-      "left": -51,
+      "top":  87,
+      "left": 15,
       "attrs": { "text": "used here, makes GPIO full 8-bits." }
     },
     {
@@ -66,7 +66,7 @@
       "top": -199,
       "left": -450,
       "attrs": {
-        "text": "\nBlinks multiple times (varies) (R),\nscans, blinks 3x (L), pauses.\nDoes that 5x.\nThen it prints a single dot.\n<-- single iteration"
+        "text": "\nLine AA                           ,\nLine BB                      \nLine CC      \nLine DD                     \n<-- single iteration"
       }
     },
     {
@@ -191,13 +191,13 @@
     [ "sw1:2a", "r15:1", "blue", [ "v9.6", "h201.6" ] ],
     [ "sw1:1a", "r16:1", "violet", [ "v9.6", "h201.6" ] ],
 
-    [ "j1:J", "r10:2", "brown", [ "v-48", "h-9.6" ] ],
-    [ "j1:J", "r11:2", "red", [ "v-48", "h-19.2" ] ],
-    [ "j1:J", "r12:2", "orange", [ "v-48", "h-19.2" ] ],
-    [ "j1:J", "r13:2", "yellow", [ "v-48", "h-19.2" ] ],
-    [ "j1:J", "r14:2", "limegreen", [ "v-48", "h-19.2" ] ],
-    [ "j1:J", "r15:2", "blue", [ "v-48", "h-19.2" ] ],
-    [ "j1:J", "r16:2", "violet", [ "v-48", "h-19.2" ] ],
+    [ "j1:J", "r10:2", "black", [ "v-48", "h-9.6" ] ],
+    [ "j1:J", "r11:2", "black", [ "v-48", "h-19.2" ] ],
+    [ "j1:J", "r12:2", "black", [ "v-48", "h-19.2" ] ],
+    [ "j1:J", "r13:2", "black", [ "v-48", "h-19.2" ] ],
+    [ "j1:J", "r14:2", "black", [ "v-48", "h-19.2" ] ],
+    [ "j1:J", "r15:2", "black", [ "v-48", "h-19.2" ] ],
+    [ "j1:J", "r16:2", "black", [ "v-48", "h-19.2" ] ],
     [ "j1:J", "r9:2", "black", [ "v0" ] ],
     [ "uno:GND.1", "gnd1:GND", "", [ "h0" ] ],
     [ "uno:GND.1", "j1:J", "", [ "h0" ] ],

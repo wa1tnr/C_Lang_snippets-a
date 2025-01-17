@@ -1,5 +1,5 @@
-/* application.c */
-/* Wed 10 Jul 07:59:06 UTC 2024 */
+/* application.cpp */
+/* Fri 17 Jan 19:55:26 UTC 2025 */
 
 #include "stack.h"
 #include <Arduino.h>
@@ -42,7 +42,7 @@ void _drop() {
 }
 
 void printTOS() {
-    Serial.print(TOSb);
+    Serial.print(TOS);
     Serial.print(' ');
 }
 
@@ -65,7 +65,6 @@ void _dotS() {
         Serial.print(pop());
     }
     _CRLF();
-    //  Serial.write(' ');
 }
 
 void stackJob() {
@@ -126,7 +125,7 @@ void switchJob() {
 void job() {
     ledsJob();
     stackJob();
-    // switchJob();
+    switchJob();
 }
 
 void setupGPIO() {
@@ -139,6 +138,7 @@ void setupSerial() {
     Serial.begin(115200);
     Serial.print('\n');
     Serial.println(" sample of serial printing");
+    Serial.println(__DATE__);
 }
 
 void setup() {

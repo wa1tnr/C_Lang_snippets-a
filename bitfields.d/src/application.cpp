@@ -1,5 +1,5 @@
 /* application.cpp */
-/* Sat 18 Jan 15:04:07 UTC 2025 */
+/* Sat 18 Jan 15:19:59 UTC 2025 */
 
 #include "stack.h"
 #include <Arduino.h>
@@ -11,16 +11,17 @@ typedef unsigned char bytee;
 
 bytee foo = 3;
 
-\ 256       xxx  xxx  xxx  xxx  xxx  xxx  xxx  xxx
-\             7    6    5    4    3    2    1    0     add + 1   count place vals
-\ 256       128   64   32   16    8    4    2    1
+// 256       xxx  xxx  xxx  xxx  xxx  xxx  xxx  xxx
+//             7    6    5    4    3    2    1    0     add + 1   count place vals
+// 256       128   64   32   16    8    4    2    1
 
 struct Date {
-    unsigned nWeekDay : 3;  // 0..7   (3 bits)
-    unsigned nMonthDay : 5; // 0..31  (6 bits)
-    unsigned : 0;           // Force alignment to next boundary.
-    unsigned nMonth : 4;    // 0..12  (4 bits) (15 not 12 max)
-    unsigned nYear : 7;     // 0..100 (7 bits) (127 not 100 max)
+    bytee    nWeekDay : 3;  // 0..7   (3 bits)
+    bytee    nMonthDay : 5; // 0..31  (6 bits)
+    bytee    : 0;           // Force alignment to next boundary.
+    bytee    nMonth : 4;    // 0..12  (4 bits) (15 not 12 max)
+    bytee    : 0;           // Force alignment to next boundary.
+    bytee    nYear : 7;     // 0..100 (7 bits) (127 not 100 max)
 };
 
 Date dateHeld;

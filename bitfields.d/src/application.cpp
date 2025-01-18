@@ -1,5 +1,5 @@
 /* application.cpp */
-/* Fri 17 Jan 19:55:26 UTC 2025 */
+/* Sat 18 Jan 15:04:07 UTC 2025 */
 
 #include "stack.h"
 #include <Arduino.h>
@@ -11,12 +11,16 @@ typedef unsigned char bytee;
 
 bytee foo = 3;
 
+\ 256       xxx  xxx  xxx  xxx  xxx  xxx  xxx  xxx
+\             7    6    5    4    3    2    1    0     add + 1   count place vals
+\ 256       128   64   32   16    8    4    2    1
+
 struct Date {
     unsigned nWeekDay : 3;  // 0..7   (3 bits)
-    unsigned nMonthDay : 6; // 0..31  (6 bits)
+    unsigned nMonthDay : 5; // 0..31  (6 bits)
     unsigned : 0;           // Force alignment to next boundary.
-    unsigned nMonth : 4;    // 0..12  (4 bits)
-    unsigned nYear : 8;     // 0..100 (7 bits)
+    unsigned nMonth : 4;    // 0..12  (4 bits) (15 not 12 max)
+    unsigned nYear : 7;     // 0..100 (7 bits) (127 not 100 max)
 };
 
 Date dateHeld;
@@ -134,11 +138,21 @@ void setupGPIO() {
     }
 }
 
+void printSignonMsgs() {
+    Serial.print(" date: ");
+    Serial.print(__DATE__);
+
+    Serial.print("   time: ");
+    Serial.print(__TIME__);
+
+    Serial.print("z   line: ");
+    Serial.println(__LINE__);
+}
+
 void setupSerial() {
     Serial.begin(115200);
     Serial.print('\n');
-    Serial.println(" sample of serial printing");
-    Serial.println(__DATE__);
+    printSignonMsgs();
 }
 
 void setup() {

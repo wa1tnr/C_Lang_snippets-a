@@ -29,9 +29,13 @@ void doTheBit(Xbytee thatByte, byte bitNumber) {
 void initExperiment() {
     Xbytee myByte = 0b00000000;
     for (byte bitNumber = 0; bitNumber < 8; bitNumber++) {
-        bool coinFlip = (bool) random(2); // exclusive max as only parm
-        if (coinFlip) { bitSet(myByte, bitNumber); }
-        if (!coinFlip) { bitClear(myByte, bitNumber); }
+        bool coinFlip = (bool)random(2); // exclusive max as only parm
+        if (coinFlip) {
+            bitSet(myByte, bitNumber);
+        }
+        if (!coinFlip) {
+            bitClear(myByte, bitNumber);
+        }
         doTheBit(myByte, bitNumber);
     }
 }

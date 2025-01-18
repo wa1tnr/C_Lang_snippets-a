@@ -1,31 +1,103 @@
 /* application.cpp */
-/* Sat 18 Jan 15:19:59 UTC 2025 */
+/* Sat 18 Jan 16:55:52 UTC 2025 */
 
 #include "stack.h"
 #include <Arduino.h>
 
+// /////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////
+// ////////////////////  experiment   //////////////////////////
+
+typedef unsigned char Xbytee;
+
+void lclFcnTestBit(Xbytee thatByte, byte bitNumber) {
+    Serial.print("  tested:  bit ");
+    Serial.print(bitNumber);
+    if (bitRead(thatByte, bitNumber) == 1) {
+        Serial.println("  is  SET");
+        return;
+    }
+    if (bitRead(thatByte, bitNumber) == 0) {
+        Serial.println("  is  RESET");
+    }
+}
+
+void doTheBit(Xbytee thatByte, byte bitNumber) {
+    lclFcnTestBit(thatByte, bitNumber);
+}
+
+void initExperiment() {
+    Xbytee myByte = 0b00000000;
+    for (byte bitNumber = 0; bitNumber < 8; bitNumber++) {
+        bool coinFlip = (bool) random(2); // exclusive max as only parm
+        if (coinFlip) { bitSet(myByte, bitNumber); }
+        if (!coinFlip) { bitClear(myByte, bitNumber); }
+        doTheBit(myByte, bitNumber);
+    }
+}
+
+// /////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////
+
+struct Bitfield {
+    unsigned int a : 2;
+    unsigned int b : 3;
+    unsigned int c : 1;
+};
+
+void Xmain() {
+
+    Serial.println("inoperative fcn atm\r\n");
+
+    // Bitfield bf = { 2, 5, 1 };
+
+    // std::bitset<8> bits( *(reinterpret_cast<unsigned int*>(&bf)) );
+
+    // std::cout << bits << std::endl;
+
+    // return 0;
+}
+
+// /////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////
+
 const byte pinMAX = 10;
-const byte pinMIN = 1;
+const byte pinMIN = 2;
 
 typedef unsigned char bytee;
 
 bytee foo = 3;
 
 // 256       xxx  xxx  xxx  xxx  xxx  xxx  xxx  xxx
-//             7    6    5    4    3    2    1    0     add + 1   count place vals
+//             7    6    5    4    3    2    1    0     add + 1   count
+//             place vals
 // 256       128   64   32   16    8    4    2    1
 
 struct Date {
-    bytee    nWeekDay : 3;  // 0..7   (3 bits)
-    bytee    nMonthDay : 5; // 0..31  (6 bits)
-    bytee    : 0;           // Force alignment to next boundary.
-    bytee    nMonth : 4;    // 0..12  (4 bits) (15 not 12 max)
-    bytee    : 0;           // Force alignment to next boundary.
-    bytee    nYear : 7;     // 0..100 (7 bits) (127 not 100 max)
+    bytee nWeekDay : 3;  // 0..7   (3 bits)
+    bytee nMonthDay : 5; // 0..31  (6 bits)
+    bytee : 0;           // Force alignment to next boundary.
+    bytee nMonth : 4;    // 0..12  (4 bits) (15 not 12 max)
+    bytee : 0;           // Force alignment to next boundary.
+    bytee nYear : 7;     // 0..100 (7 bits) (127 not 100 max)
 };
 
 Date dateHeld;
 
+/* see if 0xFFFFFF is a correct way to mask all bits
+   of dateHeld, without over/undershoot */
+
+/* plan of attack failed - tried to cast a struct to a long */
+
+/* want a unified way to grab all bits in one gulp
+   in a way at least suggestive of how it is physically
+   stored in memory */
+
+void parseDateHeldLShifted() { // ( -- lb )
+    /* three bytes uint8_t */
+    Date leftByte = dateHeld; // & 0xFF0000;
+    // push(leftByte); // year '24' make this '25' later
+}
 
 void _assignBitfieldValues() {
     dateHeld.nWeekDay = 4;
@@ -38,8 +110,11 @@ void _pushDates() {
     push(dateHeld.nWeekDay);
     push(dateHeld.nMonthDay);
     push(dateHeld.nMonth);
-    push(2000 + dateHeld.nYear);
+    // push(2000 + dateHeld.nYear);
 
+    parseDateHeldLShifted(); // (  - lb ) holds year
+    char something = 1;
+    push(something);
 }
 
 void _plus() {
@@ -142,6 +217,7 @@ void job() {
     ledsJob();
     stackJob();
     switchJob();
+    initExperiment();
 }
 
 void setupGPIO() {
@@ -171,6 +247,7 @@ void setup() {
     delay(700);
     setupGPIO();
     setupSerial();
+    Xmain();
     for (;;) {
         job();
     }

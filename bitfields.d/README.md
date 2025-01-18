@@ -1,6 +1,12 @@
 # bitfields
 
-working example:
+working examples:
+
+coin flipper 8 bits:
+
+  https://wokwi.com/projects/420437886306000897
+
+main project dev:
 
   https://wokwi.com/projects/420284244874764289
 

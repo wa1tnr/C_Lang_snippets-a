@@ -26,15 +26,20 @@ struct Date {
 
 Date dateHeld;
 
-void _pushDates() {
+
+void _assignBitfieldValues() {
     dateHeld.nWeekDay = 4;
     dateHeld.nMonthDay = 23;
     dateHeld.nMonth = 1;
     dateHeld.nYear = 24;
+}
+
+void _pushDates() {
     push(dateHeld.nWeekDay);
     push(dateHeld.nMonthDay);
     push(dateHeld.nMonth);
     push(2000 + dateHeld.nYear);
+
 }
 
 void _plus() {
@@ -72,6 +77,10 @@ void _dotS() {
     _CRLF();
 }
 
+void _printSanCheck() {
+    Serial.println(" sanity check BB: "); // no hooks eh?
+}
+
 void stackJob() {
     _clrStack();
     push(foo);
@@ -83,8 +92,10 @@ void stackJob() {
     _plus();
     printTOS();
     _drop();
+    _assignBitfieldValues();
     _pushDates();
     _dotS();
+    _printSanCheck();
 }
 
 void blink() { /* n -- */

@@ -1,7 +1,9 @@
 /* stack.cpp - shattuck's stack */
-/* Fri 17 Jan 19:55:26 UTC 2025 */
+/* Sun 19 Jan 02:54:35 UTC 2025 */
 
 #include <Arduino.h>
+#include "macros.h"
+
 /* https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44
  */
 
@@ -17,9 +19,6 @@ const int STKSIZE = 8;
 int STKMASK = 7;
 int stack[STKSIZE];
 int p = 0;
-
-/* TOS is Top Of Stack */
-#define TOS stack[p]
 
 /* push n to top of data stack */
 void push(int n) {

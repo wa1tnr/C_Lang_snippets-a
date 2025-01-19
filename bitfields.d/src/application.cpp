@@ -1,6 +1,7 @@
 /* application.cpp */
-/* Sat 18 Jan 17:12:45 UTC 2025 */
+/* Sun 19 Jan 02:54:35 UTC 2025 */
 
+#include "macros.h"
 #include "stack.h"
 #include <Arduino.h>
 
@@ -88,21 +89,6 @@ struct Date {
 
 Date dateHeld;
 
-/* see if 0xFFFFFF is a correct way to mask all bits
-   of dateHeld, without over/undershoot */
-
-/* plan of attack failed - tried to cast a struct to a long */
-
-/* want a unified way to grab all bits in one gulp
-   in a way at least suggestive of how it is physically
-   stored in memory */
-
-void parseDateHeldLShifted() { // ( -- lb )
-    /* three bytes uint8_t */
-    Date leftByte = dateHeld; // & 0xFF0000;
-    // push(leftByte); // year '24' make this '25' later
-}
-
 void _assignBitfieldValues() {
     dateHeld.nWeekDay = 4;
     dateHeld.nMonthDay = 23;
@@ -116,7 +102,7 @@ void _pushDates() {
     push(dateHeld.nMonth);
     // push(2000 + dateHeld.nYear);
 
-    parseDateHeldLShifted(); // (  - lb ) holds year
+    // parseDateHeldLShifted(); // (  - lb ) holds year
     char something = 1;
     push(something);
 }
@@ -160,6 +146,8 @@ void _printSanCheck() {
     Serial.println(" sanity check BB: "); // no hooks eh?
 }
 
+const bool DEBUG_flag_lcl = -1;
+
 void stackJob() {
     _clrStack();
     push(foo);
@@ -174,7 +162,9 @@ void stackJob() {
     _assignBitfieldValues();
     _pushDates();
     _dotS();
-    _printSanCheck();
+    if (DEBUG_flag_lcl == -1) {
+        _printSanCheck();
+    }
 }
 
 void blink() { /* n -- */

@@ -1,9 +1,9 @@
 /* application.cpp */
-/* Sun 19 Jan 19:18:49 UTC 2025 */
+/* Sun 19 Jan 19:33:41 UTC 2025 */
 
-#include <Arduino.h>
 #include "macros.h"
 #include "stack.h"
+#include <Arduino.h>
 
 // /////////////////////////////////////////////////////////////
 // ////////////////////  experiment   //////////////////////////
@@ -63,9 +63,6 @@ void Xmain() {
 }
 
 // /////////////////////////////////////////////////////////////
-
-const byte pinMAX = 10;
-// const byte pinMIN = 2;
 
 typedef unsigned char bytee;
 
@@ -166,7 +163,7 @@ void blink() { /* n -- */
 }
 
 void strobeLeds() {
-    for (byte pin = pinMAX; pin > pinMIN - 1; pin--) {
+    for (char pin = pinMAX; pin > pinMIN - 1; pin--) {
         push(pin);
         blink();
     }
@@ -204,7 +201,7 @@ void job() {
 }
 
 void setupGPIO() {
-    for (byte pin = pinMAX; pin > pinMIN - 1; pin--) {
+    for (char pin = pinMAX; pin > pinMIN - 1; pin--) {
         pinMode(pin, OUTPUT);
     }
 }

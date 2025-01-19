@@ -1,13 +1,13 @@
 /* application.cpp */
-/* Sun 19 Jan 16:57:52 UTC 2025 */
+/* Sun 19 Jan 19:18:49 UTC 2025 */
 
 #include <Arduino.h>
-#include "stack.h"
 #include "macros.h"
+#include "stack.h"
 
 // /////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////
 // ////////////////////  experiment   //////////////////////////
+// /////////////////////////////////////////////////////////////
 
 typedef unsigned char Xbytee;
 
@@ -30,7 +30,7 @@ void doTheBit(Xbytee thatByte, byte bitNumber) {
 void initExperiment() {
     Xbytee myByte = 0b00000000;
     for (byte bitNumber = 0; bitNumber < 8; bitNumber++) {
-        bool coinFlip = (bool)random(2); // exclusive max as only parm
+        bool coinFlip = (bool)random(2); // exclusive max
         if (coinFlip) {
             bitSet(myByte, bitNumber);
         }
@@ -41,7 +41,6 @@ void initExperiment() {
     }
 }
 
-// /////////////////////////////////////////////////////////////
 // /////////////////////////////////////////////////////////////
 
 struct Bitfield {
@@ -64,27 +63,21 @@ void Xmain() {
 }
 
 // /////////////////////////////////////////////////////////////
-// /////////////////////////////////////////////////////////////
 
 const byte pinMAX = 10;
-const byte pinMIN = 2;
+// const byte pinMIN = 2;
 
 typedef unsigned char bytee;
 
 bytee foo = 3;
 
-// 256       xxx  xxx  xxx  xxx  xxx  xxx  xxx  xxx
-//             7    6    5    4    3    2    1    0     add + 1   count
-//             place vals
-// 256       128   64   32   16    8    4    2    1
-
 struct Date {
-    bytee nWeekDay : 3;  // 0..7   (3 bits)
-    bytee nMonthDay : 5; // 0..31  (6 bits)
-    bytee : 0;           // Force alignment to next boundary.
-    bytee nMonth : 4;    // 0..12  (4 bits) (15 not 12 max)
-    bytee : 0;           // Force alignment to next boundary.
-    bytee nYear : 7;     // 0..100 (7 bits) (127 not 100 max)
+    bytee nWeekDay : 3;  // 0..7    (3 bits)
+    bytee nMonthDay : 5; // 0..31   (5 bits)
+    // bytee : 0;            // Force alignment to next boundary.
+    bytee nMonth : 4; // 0..12  (4 bits) (15 not 12 max)
+    bytee : 0;        // Force alignment to next boundary.
+    bytee nYear : 7;  // 0..100 (7 bits) (127 not 100 max)
 };
 
 Date dateHeld;
@@ -101,10 +94,7 @@ void _pushDates() {
     push(dateHeld.nMonthDay);
     push(dateHeld.nMonth);
     // push(2000 + dateHeld.nYear);
-
     // parseDateHeldLShifted(); // (  - lb ) holds year
-    char something = 1;
-    push(something);
 }
 
 void _plus() {
@@ -176,7 +166,7 @@ void blink() { /* n -- */
 }
 
 void strobeLeds() {
-    for (byte pin = pinMAX; pin > pinMIN; pin--) {
+    for (byte pin = pinMAX; pin > pinMIN - 1; pin--) {
         push(pin);
         blink();
     }
@@ -187,7 +177,6 @@ void ledsJob() {
 }
 
 void switchJob() {
-    // Serial.println(" switch job:\n");
     // sw1 sw2 not in use!
     bool sw3 = digitalRead(A0);
     bool sw4 = digitalRead(A1);
@@ -215,7 +204,7 @@ void job() {
 }
 
 void setupGPIO() {
-    for (byte pin = pinMAX; pin > pinMIN; pin--) {
+    for (byte pin = pinMAX; pin > pinMIN - 1; pin--) {
         pinMode(pin, OUTPUT);
     }
 }

@@ -1,7 +1,7 @@
-0.1.1-pre-alpha READY.FOR.RELEASE
+0.1.2-pre-alpha  READY.FOR.RELEASE
 
-last commit e1e51858887323ad721b12a83d40353a9bc663de
+last commit 58f94532c3dc427f6e803560f00c14b9b482656b
 
-Date:   Tue Sep 10 01:43:32 UTC 2024
+Date:   Sun Jan 19 03:17:06 UTC 2025
 
-    likely fully operational program
+    fix macro - remove unused code n comments

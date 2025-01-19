@@ -1,5 +1,5 @@
 /* stack.cpp - shattuck's stack */
-/* Sun 19 Jan 02:54:35 UTC 2025 */
+/* Sun 19 Jan 16:57:52 UTC 2025 */
 
 #include <Arduino.h>
 #include "macros.h"
@@ -15,8 +15,6 @@
    so overflow and underflow are not possible
    Number of items must be a power of 2 */
 
-const int STKSIZE = 8;
-int STKMASK = 7;
 int stack[STKSIZE];
 int p = 0;
 

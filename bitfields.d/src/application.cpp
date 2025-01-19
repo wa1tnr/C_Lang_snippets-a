@@ -1,9 +1,9 @@
 /* application.cpp */
-/* Sun 19 Jan 02:54:35 UTC 2025 */
+/* Sun 19 Jan 16:57:52 UTC 2025 */
 
-#include "macros.h"
-#include "stack.h"
 #include <Arduino.h>
+#include "stack.h"
+#include "macros.h"
 
 // /////////////////////////////////////////////////////////////
 // /////////////////////////////////////////////////////////////

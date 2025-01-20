@@ -1,8 +1,9 @@
 /* stack.cpp - shattuck's stack */
-/* Sun 19 Jan 16:57:52 UTC 2025 */
+/* Mon 20 Jan 21:35:14 UTC 2025 */
 
 #include <Arduino.h>
 #include "macros.h"
+#include <stdint.h>
 
 /* https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44
  */
@@ -15,8 +16,14 @@
    so overflow and underflow are not possible
    Number of items must be a power of 2 */
 
+const uint8_t STKSIZE = 8 ;
+extern const uint8_t STKMASK ;
+
 int stack[STKSIZE];
-int p = 0;
+uint8_t p = 0;
+
+// RAM:   [==        ]  16.0% (used 328 bytes from 2048 bytes)
+// Flash: [=         ]  11.7% (used 3788 bytes from 32256 bytes)
 
 /* push n to top of data stack */
 void push(int n) {

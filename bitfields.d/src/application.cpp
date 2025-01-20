@@ -1,13 +1,18 @@
 /* application.cpp */
-/* Sun 19 Jan 19:33:41 UTC 2025 */
+/* Mon 20 Jan 21:35:14 UTC 2025 */
 
 #include "macros.h"
 #include "stack.h"
 #include <Arduino.h>
 
+const uint8_t STKMASK = 7;
+
 // /////////////////////////////////////////////////////////////
 // ////////////////////  experiment   //////////////////////////
 // /////////////////////////////////////////////////////////////
+
+const uint8_t pinMAX = '\011'; // for D9
+const uint8_t pinMIN = '\002'; // for D2
 
 typedef unsigned char Xbytee;
 
@@ -163,7 +168,7 @@ void blink() { /* n -- */
 }
 
 void strobeLeds() {
-    for (char pin = pinMAX; pin > pinMIN - 1; pin--) {
+    for (uint8_t pin = pinMAX; pin > pinMIN - 1; pin--) {
         push(pin);
         blink();
     }
@@ -201,7 +206,7 @@ void job() {
 }
 
 void setupGPIO() {
-    for (char pin = pinMAX; pin > pinMIN - 1; pin--) {
+    for (uint8_t pin = pinMAX; pin > pinMIN - 1; pin--) {
         pinMode(pin, OUTPUT);
     }
 }

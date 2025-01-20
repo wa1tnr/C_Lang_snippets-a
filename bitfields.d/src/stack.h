@@ -1,5 +1,6 @@
 /* stack.h - shattuck's stack */
-/* Sun 19 Jan 16:57:52 UTC 2025 */
+/* Mon 20 Jan 21:35:14 UTC 2025 */
+#include <stdint.h>
 
 /*
   https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44
@@ -9,9 +10,13 @@
 /* This example code is in the public domain */
 
 /* not all will need an extern prototype */
-extern int pop();
-extern void push(int n);
+
+extern const uint8_t STKMASK ; // why here tho
+
 extern int stack[];
-extern int p;
+extern uint8_t p;
+
+extern void push(int n);
+extern int pop();
 
 /* end. */

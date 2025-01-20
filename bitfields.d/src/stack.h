@@ -11,8 +11,7 @@
 
 /* not all will need an extern prototype */
 
-extern const uint8_t STKMASK ; // why here tho
-
+extern uint8_t STKMASK;
 extern int stack[];
 extern uint8_t p;
 

@@ -1,8 +1,8 @@
 /* stack.cpp - shattuck's stack */
 /* Mon 20 Jan 21:35:14 UTC 2025 */
 
-#include <Arduino.h>
 #include "macros.h"
+#include <Arduino.h>
 #include <stdint.h>
 
 /* https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino#L11-L44
@@ -16,8 +16,8 @@
    so overflow and underflow are not possible
    Number of items must be a power of 2 */
 
-const uint8_t STKSIZE = 8 ;
-extern const uint8_t STKMASK ;
+const uint8_t STKSIZE = 8;
+uint8_t STKMASK = 7;
 
 int stack[STKSIZE];
 uint8_t p = 0;

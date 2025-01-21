@@ -3,6 +3,7 @@
 
 #include "macros.h"
 #include "stack.h"
+#include "time_stamp.h"
 #include <Arduino.h>
 
 // /////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ struct Bitfield {
 
 void Xmain() {
 
-    Serial.println("inoperative fcn atm\r\n");
+    Serial.println(" inoperative fcn atm");
 
     // Bitfield bf = { 2, 5, 1 };
 
@@ -210,6 +211,7 @@ void setupGPIO() {
 }
 
 void printSignonMsgs() {
+    Serial.print(" build  ");
     Serial.print(" date: ");
     Serial.print(__DATE__);
 
@@ -218,6 +220,7 @@ void printSignonMsgs() {
 
     Serial.print("z   line: ");
     Serial.println(__LINE__);
+    Serial.println(TIME_STAMP);
 }
 
 void setupSerial() {

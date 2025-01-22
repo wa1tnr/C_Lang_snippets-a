@@ -1,0 +1,64 @@
+
+# Wed 22 Jan 22:04:27 UTC 2025
+
+# work with built in Makefile Tool vscode
+
+# TODO: get the name of Makefile Tool correct if not already.
+
+all:	std_build
+
+# TODO: find out how to use .PHONY: target (again)
+
+.PHONY:	all
+
+std_build:	distclean_build
+
+distclean_build:	distclean build
+
+_build_msg_a:
+	@echo ; \
+		echo -n "[0;33;40m" ; \
+		echo -n "  sleep 4 would be running here, on a demo.." ; \
+		sleep 0.4 ; \
+		echo -n ".  [0;1;32;40mDone.[0m" ; \
+		echo ; \
+		echo ; \
+		sleep 0.5
+
+build:	_build_msg_a
+	@ .  ./.profile__platformio--modded- ; \
+		cd 0000-CURRENT ; \
+		cd `/bin/pwd` ; \
+		pwd | cut -b 53- ; \
+		echo -n "[0;33;40m" ; \
+		echo -n "  make build" ; \
+		echo    "[0m" ; \
+		make build
+
+build_old_c:
+	@ .  ./.profile__platformio--modded- ; cd 0000-CURRENT ; cd `/bin/pwd` ; pwd | cut -b 53- ; make build
+
+build_old_b:
+	@ .  ./.profile__platformio--modded- ; \
+		cd 0000-CURRENT ; \
+		cd `/bin/pwd` ; \
+		pwd | cut -b 53- ; \
+		make build
+
+
+build_old:
+	@ .  ./.profile__platformio--modded- ; cd 0000-CURRENT ; cd `/bin/pwd` ; pwd | cut -b 53- ; make build
+
+distclean:
+	@ .  ./.profile__platformio--modded- ; cd 0000-CURRENT ; cd `/bin/pwd` ; pwd | cut -b 53- ; make distclean
+
+xall:	git_status
+
+# find all tabs and remove them in the status, to help form .gitignore entries
+git_status:
+	@git status | cat | tr -d '\t'
+
+pwd:
+	@echo -n '  ..'
+	@pwd | cut -b 27-
+

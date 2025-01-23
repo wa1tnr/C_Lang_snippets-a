@@ -1,9 +1,16 @@
-# Thu 23 Jan 16:25:05 UTC 2025
+# Thu 23 Jan 17:56:06 UTC 2025
 
 all:	build
+.PHONY:	all
 
-build:	_hint_build_command_line
+build:	_hint_pr_logo	_hint_build_command_line
 	@pio -f -c vim run -v ; echo
+	@cat ./scripts.d/show2K1Odyssey.txt
+
+_hint_pr_logo:
+	@./scripts.d/print_logo.sh
+
+# problem is with sequence of the _hint vs printing the logo
 
 # https://docs.platformio.org/en/stable/boards/atmelavr/uno.html
 #     output of the command gives an alternate uri:
@@ -137,5 +144,7 @@ _hint_build_command_line:
 	@${ECHO_BIN} -e  "\e[0m"
 	@echo
 	@sleep 1.2
+
+# status: 100% more fun than just a moment ago. ;)
 
 # end.

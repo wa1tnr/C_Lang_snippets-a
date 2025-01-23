@@ -1,7 +1,9 @@
-# Thu 16 Jan 18:14:12 UTC 2025 
+# Thu 23 Jan 16:25:05 UTC 2025
 
-all:
-	pio -f -c vim run -v
+all:	build
+
+build:	_hint_build_command_line
+	@pio -f -c vim run -v ; echo
 
 # https://docs.platformio.org/en/stable/boards/atmelavr/uno.html
 #     output of the command gives an alternate uri:
@@ -87,10 +89,53 @@ pwd:
 	@echo -n '  ..'
 	@pwd | cut -b 27-
 
-clean:
-	pio run -t clean
+clean:	_hint_clean_aa
+	@pio run -t clean
 
-distclean: clean
-	rm -rf ./.pio
+distclean: clean	_hint_distclean_aa
+	@rm -rf ./.pio
+	@echo
+
+# @echo ; echo "    rm -rf ./.pio"    ; rm -rf ./.pio ; \
+
+# --- ansi macros and such
+
+ECHO_BIN=/usr/bin/echo # external echo supports \e escape
+
+_hint_clean_aa:
+	@echo
+	@${ECHO_BIN} -en "\e[0;1;33;40m" # yellow
+	@${ECHO_BIN} -en "    ["
+	@${ECHO_BIN} -en "\e[0;1;32;40m" # green
+	@${ECHO_BIN} -en "pio run -t clean"
+	@${ECHO_BIN} -en "\e[0;1;33;40m" # yellow
+	@${ECHO_BIN} -en "]"
+	@${ECHO_BIN} -e  "\e[0m"
+	@echo
+	@sleep 1.2 # gestural; training only
+
+_hint_distclean_aa:
+	@echo
+	@${ECHO_BIN} -en "\e[0;1;33;40m"
+	@${ECHO_BIN} -en "    ["
+	@${ECHO_BIN} -en "\e[0;1;32;40m"
+	@${ECHO_BIN} -en "rm -rf ./.pio"
+	@${ECHO_BIN} -en "\e[0;1;33;40m"
+	@${ECHO_BIN} -en "]"
+	@${ECHO_BIN} -e  "\e[0m"
+	@echo
+	@sleep 1.2
+
+_hint_build_command_line:
+	@echo # internal echo
+	@${ECHO_BIN} -en "\e[0;1;33;40m"
+	@${ECHO_BIN} -en "    ["
+	@${ECHO_BIN} -en "\e[0;1;32;40m"
+	@${ECHO_BIN} -en "pio -f -c vim run -v"
+	@${ECHO_BIN} -en "\e[0;1;33;40m"
+	@${ECHO_BIN} -en "]"
+	@${ECHO_BIN} -e  "\e[0m"
+	@echo
+	@sleep 1.2
 
 # end.

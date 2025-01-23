@@ -1,10 +1,12 @@
 /* application.cpp */
-/* Mon 20 Jan 21:35:14 UTC 2025 */
+/* Thu 23 Jan 16:25:05 UTC 2025 */
 
 #include "macros.h"
 #include "stack.h"
 #include "time_stamp.h"
 #include <Arduino.h>
+
+// analogInputToDigitalPin(p)
 
 // /////////////////////////////////////////////////////////////
 // ////////////////////  experiment   //////////////////////////
@@ -12,6 +14,9 @@
 
 const uint8_t pinMAX = '\011'; // for D9
 const uint8_t pinMIN = '\002'; // for D2
+
+const uint8_t inPinMAX = 19; // D19 aka A5
+const uint8_t inPinMIN = 14; // D14 aka D0
 
 typedef unsigned char Xbytee;
 
@@ -53,17 +58,36 @@ struct Bitfield {
     unsigned int c : 1;
 };
 
+//  2/  and >> stuff also:
+
+// trying to avoid a std array of ints for indexing
+// just for the exercise.  Maybe will implement it
+// first and see how that goes.
+
+struct dipSwitch {
+    uint8_t sw1 : 1;
+    uint8_t sw2 : 1;
+    uint8_t sw3 : 1;
+    uint8_t sw4 : 1;
+    uint8_t sw5 : 1;
+    uint8_t sw6 : 1;
+    uint8_t sw7 : 1;
+    uint8_t sw8 : 1;
+};
+
 void Xmain() {
 
     Serial.println(" inoperative fcn atm");
 
-    // Bitfield bf = { 2, 5, 1 };
+#if 0
+    Bitfield bf = { 2, 5, 1 };
 
-    // std::bitset<8> bits( *(reinterpret_cast<unsigned int*>(&bf)) );
+    std::bitset<8> bits( *(reinterpret_cast<unsigned int*>(&bf)) );
 
-    // std::cout << bits << std::endl;
+    std::cout << bits << std::endl;
 
-    // return 0;
+    return 0;
+#endif
 }
 
 // /////////////////////////////////////////////////////////////
@@ -105,6 +129,12 @@ void _plus() {
 
 void _drop() {
     pop();
+}
+
+void _dup() {
+    int a = pop();
+    push(a);
+    push(a);
 }
 
 void printTOS() {
@@ -173,6 +203,143 @@ void strobeLeds() {
     }
 }
 
+void showDIPOnLED() { // ( outputLEDpin value -- )
+    int pin = pop();
+    bool value = (bool)pop();
+    digitalWrite(pin, value);
+}
+
+// analogInputToDigitalPin(p)
+// const byte buttonPin = A0;
+// d14--d19 also
+
+// TODO hey it aligned these comments nicely:
+
+/***
+ *
+ *  D2 LED is D19 A5 sw8  #112299 'black' (deep blueish green)
+ *  D3 LED is D18 A4 sw7  brown
+ *  D4 LED is D17 A3 sw6  red
+ *  D5 LED is D16 A2 sw5  orange
+ *  D6 LED is D15 A1 sw4  yellow
+ *  D7 LED is D14 A0 sw3  green wire on DIP switch sw3 / A0
+ */
+
+void readPin() { // ( pin pin' -- pin state )
+    uint8_t inPin = (uint8_t)pop();
+    bool state = (bool)digitalRead(inPin);
+    push((int)state);
+}
+
+#define MAPPING_AA
+#undef MAPPING_AA
+
+#undef MAPPING_BB
+#define MAPPING_BB
+
+#ifdef MAPPING_AA
+void mapToLED() { // ( pin state -- )
+    bool state = (bool)pop();
+    uint8_t pin = (uint8_t)pop();
+    if (pin == 19) {
+        uint8_t LEDpin = 2;
+        digitalWrite(LEDpin, state);
+        return;
+    }
+    if (pin == 18) {
+        uint8_t LEDpin = 3;
+        digitalWrite(LEDpin, state);
+        return;
+    }
+    if (pin == 17) {
+        uint8_t LEDpin = 4;
+        digitalWrite(LEDpin, state);
+        return;
+    }
+    if (pin == 16) {
+        uint8_t LEDpin = 5;
+        digitalWrite(LEDpin, state);
+        return;
+    }
+    if (pin == 15) {
+        uint8_t LEDpin = 6;
+        digitalWrite(LEDpin, state);
+        return;
+    }
+    if (pin == 14) {
+        uint8_t LEDpin = 7;
+        digitalWrite(LEDpin, state);
+        return;
+    }
+}
+#endif // MAPPING_AA
+
+
+#ifdef MAPPING_BB
+
+// digitalRead(pin) is on TOS as 'state' for A0 .. A5:
+
+void mapToLED() { // ( pin state -- )
+
+    bool state = (bool)pop(); // is the DIP switch closed or open?
+
+    uint8_t pin = (uint8_t)pop();
+
+    // stack balanced
+
+    switch(pin) {
+        case 19:
+        return;
+    }
+
+    if (pin == 19) {
+        ;
+    }
+}
+#endif // MAPPING_BB
+
+void showDIPStates() {
+    for (uint8_t inPin = inPinMAX; inPin > inPinMIN - 1; inPin--) {
+        push((int)inPin);
+        _dup();
+        readPin();  // ( pin pin' -- pin state )
+        mapToLED(); // ( pin state -- )
+    }
+}
+
+void unUsed() {
+    uint8_t pin = 2;              // LED output
+    push(pin);                    // ( -- addr )
+    bool state = digitalRead(A5); // corresponding DIP switch sw8
+    push((uint8_t)state);         // ( addr -- addr value )
+    showDIPOnLED();               // ( addr value -- )
+}
+
+/***
+ *
+ * mapping of uno:2 (GPIO D2) output to sw8 (DIP sw on A5) input
+ * inefficient.
+ *
+ */
+
+/****
+ * uno:2 is bit 2^0 LED (ersatz black LED)
+ *
+ *
+ */
+
+/***
+ *
+ * TODO
+ *
+ * Hardware issue: A0 A1 .. A5 not 'easily' indexed by a loop.
+ * See if a generic notion exists for this one. ;)
+ *
+ *
+ *
+ *
+ */
+
 void ledsJob() {
     strobeLeds();
 }
@@ -198,15 +365,28 @@ void switchJob() {
 }
 
 void job() {
-    ledsJob();
+    // ledsJob();
     stackJob();
-    switchJob();
-    initExperiment();
+    Serial.println("");
+    Serial.println(" - - OOB marker - -");
+    Serial.println("");
+    // switchJob();
+    showDIPStates();
+    _CRLF();
+    _dotS();
+    _CRLF();
+    // initExperiment();
 }
+
+// TODO validate pinMODE INPUT on D14 thru D19 'somehow'
 
 void setupGPIO() {
     for (uint8_t pin = pinMAX; pin > pinMIN - 1; pin--) {
         pinMode(pin, OUTPUT);
+    }
+    // D19 down to D14:
+    for (uint8_t pin = inPinMAX; pin > inPinMIN - 1; pin--) {
+        pinMode(pin, INPUT);
     }
 }
 

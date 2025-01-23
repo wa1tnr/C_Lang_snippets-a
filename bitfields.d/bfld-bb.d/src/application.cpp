@@ -1,5 +1,5 @@
 /* application.cpp */
-/* Thu 23 Jan 16:25:05 UTC 2025 */
+/* Thu 23 Jan 17:06:56 UTC 2025 */
 
 #include "macros.h"
 #include "stack.h"
@@ -244,6 +244,8 @@ void mapToLED() { // ( pin state -- )
     if (pin == 19) {
         uint8_t LEDpin = 2;
         digitalWrite(LEDpin, state);
+        uint8_t LEDpin = 2;
+        digitalWrite(LEDpin, state);
         return;
     }
     if (pin == 18) {
@@ -274,26 +276,39 @@ void mapToLED() { // ( pin state -- )
 }
 #endif // MAPPING_AA
 
-
 #ifdef MAPPING_BB
-
-// digitalRead(pin) is on TOS as 'state' for A0 .. A5:
-
-void mapToLED() { // ( pin state -- )
-
+void mapToLED() {             // ( pin state -- )
     bool state = (bool)pop(); // is the DIP switch closed or open?
-
     uint8_t pin = (uint8_t)pop();
-
     // stack balanced
-
-    switch(pin) {
-        case 19:
+    uint8_t LEDpin = 0;
+    switch (pin) {
+    case 19:
+        LEDpin = 2;
+        digitalWrite(LEDpin, state);
         return;
-    }
-
-    if (pin == 19) {
-        ;
+    case 18:
+        LEDpin = 3;
+        digitalWrite(LEDpin, state);
+        return;
+    case 17:
+        LEDpin = 4;
+        digitalWrite(LEDpin, state);
+        return;
+    case 16:
+        LEDpin = 5;
+        digitalWrite(LEDpin, state);
+        return;
+    case 15:
+        LEDpin = 6;
+        digitalWrite(LEDpin, state);
+        return;
+    case 14:
+        LEDpin = 7;
+        digitalWrite(LEDpin, state);
+        return;
+    default:
+        return; // stack balanced just no output at all
     }
 }
 #endif // MAPPING_BB

@@ -1,12 +1,10 @@
 /* application.cpp */
-/* Thu 23 Jan 17:06:56 UTC 2025 */
+/* Fri 24 Jan 16:34:23 UTC 2025 */
 
 #include "macros.h"
 #include "stack.h"
 #include "time_stamp.h"
 #include <Arduino.h>
-
-// analogInputToDigitalPin(p)
 
 // /////////////////////////////////////////////////////////////
 // ////////////////////  experiment   //////////////////////////
@@ -137,6 +135,13 @@ void _dup() {
     push(a);
 }
 
+void _swap() { // ( b a -- a b )
+    int a = pop();
+    int b = pop();
+    push(a);
+    push(b);
+}
+
 void printTOS() {
     Serial.print(TOS);
     Serial.print(' ');
@@ -203,12 +208,6 @@ void strobeLeds() {
     }
 }
 
-void showDIPOnLED() { // ( outputLEDpin value -- )
-    int pin = pop();
-    bool value = (bool)pop();
-    digitalWrite(pin, value);
-}
-
 // analogInputToDigitalPin(p)
 // const byte buttonPin = A0;
 // d14--d19 also
@@ -225,25 +224,34 @@ void showDIPOnLED() { // ( outputLEDpin value -- )
  *  D7 LED is D14 A0 sw3  green wire on DIP switch sw3 / A0
  */
 
-void readPin() { // ( pin pin' -- pin state )
-    uint8_t inPin = (uint8_t)pop();
+void readPin() {                    // ( pin pin' -- pin state )
+    uint8_t inPin = (uint8_t)pop(); // ( pin pin' -- pin )
     bool state = (bool)digitalRead(inPin);
-    push((int)state);
+    push((int)state); // ( pin -- pin state )
 }
 
 #define MAPPING_AA
 #undef MAPPING_AA
 
-#undef MAPPING_BB
 #define MAPPING_BB
+#undef MAPPING_BB
+
+#define MAPPING_CC
+#undef MAPPING_CC
+
+#ifdef MAPPING_AA_SIZED
+// RAM : [==] 17.6 % (used 360 bytes from 2048 bytes)
+// Flash : [=] 9.9 % (used 3180 bytes from 32256 bytes)
+
+// saves ten bytes of flash over the switch/case, but
+// perhaps loses function (no default case for example)
+#endif // MAPPING_AA_SIZED
 
 #ifdef MAPPING_AA
 void mapToLED() { // ( pin state -- )
     bool state = (bool)pop();
     uint8_t pin = (uint8_t)pop();
     if (pin == 19) {
-        uint8_t LEDpin = 2;
-        digitalWrite(LEDpin, state);
         uint8_t LEDpin = 2;
         digitalWrite(LEDpin, state);
         return;
@@ -276,11 +284,16 @@ void mapToLED() { // ( pin state -- )
 }
 #endif // MAPPING_AA
 
+#ifdef MAPPING_BB_SIZED
+// RAM : [==] 17.6 % (used 360 bytes from 2048 bytes)
+// Flash : [=] 9.9 % (used 3190 bytes from 32256 bytes)
+#endif // MAPPING_BB_SIZED
+
 #ifdef MAPPING_BB
 void mapToLED() {             // ( pin state -- )
     bool state = (bool)pop(); // is the DIP switch closed or open?
     uint8_t pin = (uint8_t)pop();
-    // stack balanced
+
     uint8_t LEDpin = 0;
     switch (pin) {
     case 19:
@@ -313,21 +326,91 @@ void mapToLED() {             // ( pin state -- )
 }
 #endif // MAPPING_BB
 
-void showDIPStates() {
+/***
+ *
+ * MAPPING_CC  tries to build on 'success' of MAPPING_AA strategy 24 Jan 14z
+ *
+ *
+ *
+ */
+
+#ifdef MAPPING_CC_SIZED
+// RAM :  [==] 17.6 % (used 360 bytes from 2048 bytes)
+// Flash : [=] 9.9 % (used 3196 bytes from 32256 bytes)
+// used  6 more bytes of flash than MAPPING_AA
+// used 16 more bytes of flash than MAPPING_BB
+
+#endif // MAPPING_CC_SIZED
+
+// void doSubtractAbs() // ( inPin -- outPin )
+// RAM:   [==        ]  17.6% (used 360 bytes from 2048 bytes)
+// Flash: [=         ]   9.8% (used 3158 bytes from 32256 bytes)
+// same ram footprint - likely the 'best' flash footprint at 3158 bytes
+
+void doSubtractAbs() { // ( inPin -- outPin )
+    uint8_t inPin = pop();
+    uint8_t OutPin = abs((inPin - 19));
+    push(OutPin + 2);
+}
+
+#ifdef MAPPING_CC
+void mapToLED() {                 // ( state ipin -- state opin )
+    uint8_t pin = (uint8_t)pop(); // ( state ipin -- state )
+    if (pin == 19) {
+        push(2); // ( state -- state opin )
+        return;
+    }
+    if (pin == 18) {
+        push(3);
+        return;
+    }
+    if (pin == 17) {
+        push(4);
+        return;
+    }
+    if (pin == 16) {
+        push(5);
+        return;
+    }
+    if (pin == 15) {
+        push(6);
+        return;
+    }
+    if (pin == 14) {
+        push(7);
+        return;
+    }
+}
+#endif // MAPPING_CC
+
+void showDIPStates() { // ( -- )
     for (uint8_t inPin = inPinMAX; inPin > inPinMIN - 1; inPin--) {
-        push((int)inPin);
-        _dup();
-        readPin();  // ( pin pin' -- pin state )
-        mapToLED(); // ( pin state -- )
+        push((int)inPin); // ( -- pin )
+        _dup();           // ( pin -- pin pin' )
+        readPin();        // ( pin pin' -- pin state )
+        _swap();          // ( pin state -- state ipin )
+        doSubtractAbs();  // ( state inPin -- state outPin )
+        // mapToLED(); // ( state ipin -- state opin )
+        uint8_t pin = (uint8_t)pop();
+        bool state = (bool)pop();
+        digitalWrite(pin, state);
     }
 }
 
-void unUsed() {
+void unusedShowDIPOnLED() { // ( outputLEDpin value -- )
+    int pin = pop();
+    bool value = (bool)pop();
+    digitalWrite(pin, value);
+}
+
+// TODO: delete this:
+void delmeUnUsed() {
     uint8_t pin = 2;              // LED output
     push(pin);                    // ( -- addr )
     bool state = digitalRead(A5); // corresponding DIP switch sw8
     push((uint8_t)state);         // ( addr -- addr value )
-    showDIPOnLED();               // ( addr value -- )
+    unusedShowDIPOnLED();         // ( addr value -- )
+    // showDIPOnLED();            // ( addr value -- )
 }
 
 /***
@@ -359,7 +442,7 @@ void ledsJob() {
     strobeLeds();
 }
 
-void switchJob() {
+void switchStatesReport() {
     // sw1 sw2 not in use!
     bool sw3 = digitalRead(A0);
     bool sw4 = digitalRead(A1);
@@ -386,6 +469,7 @@ void job() {
     Serial.println(" - - OOB marker - -");
     Serial.println("");
     // switchJob();
+    // switchStatesReport();
     showDIPStates();
     _CRLF();
     _dotS();
@@ -405,6 +489,9 @@ void setupGPIO() {
     }
 }
 
+// const bool doDelay = -1;
+const bool doDelay = 0;
+
 void printSignonMsgs() {
     Serial.print(" build  ");
     Serial.print(" date: ");
@@ -416,6 +503,11 @@ void printSignonMsgs() {
     Serial.print("z   line: ");
     Serial.println(__LINE__);
     Serial.println(TIME_STAMP);
+    if (doDelay) {
+        Serial.println();
+        Serial.println(" long delay program identity check");
+        delay(12123); // 12 seconds
+    }
 }
 
 void setupSerial() {

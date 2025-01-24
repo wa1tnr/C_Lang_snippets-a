@@ -1,5 +1,5 @@
 /* application.cpp */
-/* Fri 24 Jan 16:34:23 UTC 2025 */
+/* Fri 24 Jan 17:57:15 UTC 2025 */
 
 #include "macros.h"
 #include "stack.h"
@@ -56,12 +56,6 @@ struct Bitfield {
     unsigned int c : 1;
 };
 
-//  2/  and >> stuff also:
-
-// trying to avoid a std array of ints for indexing
-// just for the exercise.  Maybe will implement it
-// first and see how that goes.
-
 struct dipSwitch {
     uint8_t sw1 : 1;
     uint8_t sw2 : 1;
@@ -79,11 +73,8 @@ void Xmain() {
 
 #if 0
     Bitfield bf = { 2, 5, 1 };
-
     std::bitset<8> bits( *(reinterpret_cast<unsigned int*>(&bf)) );
-
     std::cout << bits << std::endl;
-
     return 0;
 #endif
 }
@@ -116,8 +107,6 @@ void _pushDates() {
     push(dateHeld.nWeekDay);
     push(dateHeld.nMonthDay);
     push(dateHeld.nMonth);
-    // push(2000 + dateHeld.nYear);
-    // parseDateHeldLShifted(); // (  - lb ) holds year
 }
 
 void _plus() {
@@ -135,7 +124,7 @@ void _dup() {
     push(a);
 }
 
-void _swap() { // ( b a -- a b )
+void _swap() {
     int a = pop();
     int b = pop();
     push(a);
@@ -169,7 +158,7 @@ void _dotS() {
 }
 
 void _printSanCheck() {
-    Serial.println(" sanity check BB: "); // no hooks eh?
+    Serial.println(" sanity check BB: ");
 }
 
 const bool DEBUG_flag_lcl = -1;
@@ -208,12 +197,6 @@ void strobeLeds() {
     }
 }
 
-// analogInputToDigitalPin(p)
-// const byte buttonPin = A0;
-// d14--d19 also
-
-// TODO hey it aligned these comments nicely:
-
 /***
  *
  *  D2 LED is D19 A5 sw8  #112299 'black' (deep blueish green)
@@ -224,219 +207,37 @@ void strobeLeds() {
  *  D7 LED is D14 A0 sw3  green wire on DIP switch sw3 / A0
  */
 
-void readPin() {                    // ( pin pin' -- pin state )
-    uint8_t inPin = (uint8_t)pop(); // ( pin pin' -- pin )
+void readPin() { // ( pin -- pin state )
+    _dup();
+    uint8_t inPin = (uint8_t)pop();
     bool state = (bool)digitalRead(inPin);
-    push((int)state); // ( pin -- pin state )
+    push((int)state);
 }
-
-#define MAPPING_AA
-#undef MAPPING_AA
-
-#define MAPPING_BB
-#undef MAPPING_BB
-
-#define MAPPING_CC
-#undef MAPPING_CC
-
-#ifdef MAPPING_AA_SIZED
-// RAM : [==] 17.6 % (used 360 bytes from 2048 bytes)
-// Flash : [=] 9.9 % (used 3180 bytes from 32256 bytes)
-
-// saves ten bytes of flash over the switch/case, but
-// perhaps loses function (no default case for example)
-#endif // MAPPING_AA_SIZED
-
-#ifdef MAPPING_AA
-void mapToLED() { // ( pin state -- )
-    bool state = (bool)pop();
-    uint8_t pin = (uint8_t)pop();
-    if (pin == 19) {
-        uint8_t LEDpin = 2;
-        digitalWrite(LEDpin, state);
-        return;
-    }
-    if (pin == 18) {
-        uint8_t LEDpin = 3;
-        digitalWrite(LEDpin, state);
-        return;
-    }
-    if (pin == 17) {
-        uint8_t LEDpin = 4;
-        digitalWrite(LEDpin, state);
-        return;
-    }
-    if (pin == 16) {
-        uint8_t LEDpin = 5;
-        digitalWrite(LEDpin, state);
-        return;
-    }
-    if (pin == 15) {
-        uint8_t LEDpin = 6;
-        digitalWrite(LEDpin, state);
-        return;
-    }
-    if (pin == 14) {
-        uint8_t LEDpin = 7;
-        digitalWrite(LEDpin, state);
-        return;
-    }
-}
-#endif // MAPPING_AA
-
-#ifdef MAPPING_BB_SIZED
-// RAM : [==] 17.6 % (used 360 bytes from 2048 bytes)
-// Flash : [=] 9.9 % (used 3190 bytes from 32256 bytes)
-#endif // MAPPING_BB_SIZED
-
-#ifdef MAPPING_BB
-void mapToLED() {             // ( pin state -- )
-    bool state = (bool)pop(); // is the DIP switch closed or open?
-    uint8_t pin = (uint8_t)pop();
-
-    uint8_t LEDpin = 0;
-    switch (pin) {
-    case 19:
-        LEDpin = 2;
-        digitalWrite(LEDpin, state);
-        return;
-    case 18:
-        LEDpin = 3;
-        digitalWrite(LEDpin, state);
-        return;
-    case 17:
-        LEDpin = 4;
-        digitalWrite(LEDpin, state);
-        return;
-    case 16:
-        LEDpin = 5;
-        digitalWrite(LEDpin, state);
-        return;
-    case 15:
-        LEDpin = 6;
-        digitalWrite(LEDpin, state);
-        return;
-    case 14:
-        LEDpin = 7;
-        digitalWrite(LEDpin, state);
-        return;
-    default:
-        return; // stack balanced just no output at all
-    }
-}
-#endif // MAPPING_BB
-
-/***
- *
- * MAPPING_CC  tries to build on 'success' of MAPPING_AA strategy 24 Jan 14z
- *
- *
- *
- */
-
-#ifdef MAPPING_CC_SIZED
-// RAM :  [==] 17.6 % (used 360 bytes from 2048 bytes)
-// Flash : [=] 9.9 % (used 3196 bytes from 32256 bytes)
-// used  6 more bytes of flash than MAPPING_AA
-// used 16 more bytes of flash than MAPPING_BB
-
-#endif // MAPPING_CC_SIZED
 
 // void doSubtractAbs() // ( inPin -- outPin )
 // RAM:   [==        ]  17.6% (used 360 bytes from 2048 bytes)
 // Flash: [=         ]   9.8% (used 3158 bytes from 32256 bytes)
 // same ram footprint - likely the 'best' flash footprint at 3158 bytes
 
-void doSubtractAbs() { // ( inPin -- outPin )
+void mapPin() { // ( inPin -- outPin )
     uint8_t inPin = pop();
-    uint8_t OutPin = abs((inPin - 19));
-    push(OutPin + 2);
+    uint8_t outPin = abs(inPin - 19) + 2;
+    push(outPin);
 }
 
-#ifdef MAPPING_CC
-void mapToLED() {                 // ( state ipin -- state opin )
-    uint8_t pin = (uint8_t)pop(); // ( state ipin -- state )
-    if (pin == 19) {
-        push(2); // ( state -- state opin )
-        return;
-    }
-    if (pin == 18) {
-        push(3);
-        return;
-    }
-    if (pin == 17) {
-        push(4);
-        return;
-    }
-    if (pin == 16) {
-        push(5);
-        return;
-    }
-    if (pin == 15) {
-        push(6);
-        return;
-    }
-    if (pin == 14) {
-        push(7);
-        return;
-    }
-}
-#endif // MAPPING_CC
-
-void showDIPStates() { // ( -- )
+void showDIPStates() {
     for (uint8_t inPin = inPinMAX; inPin > inPinMIN - 1; inPin--) {
-        push((int)inPin); // ( -- pin )
-        _dup();           // ( pin -- pin pin' )
-        readPin();        // ( pin pin' -- pin state )
-        _swap();          // ( pin state -- state ipin )
-        doSubtractAbs();  // ( state inPin -- state outPin )
-        // mapToLED(); // ( state ipin -- state opin )
+        push((int)inPin);
+        readPin();
+        _swap();
+        mapPin();
         uint8_t pin = (uint8_t)pop();
         bool state = (bool)pop();
         digitalWrite(pin, state);
     }
 }
 
-void unusedShowDIPOnLED() { // ( outputLEDpin value -- )
-    int pin = pop();
-    bool value = (bool)pop();
-    digitalWrite(pin, value);
-}
-
-// TODO: delete this:
-void delmeUnUsed() {
-    uint8_t pin = 2;              // LED output
-    push(pin);                    // ( -- addr )
-    bool state = digitalRead(A5); // corresponding DIP switch sw8
-    push((uint8_t)state);         // ( addr -- addr value )
-    unusedShowDIPOnLED();         // ( addr value -- )
-    // showDIPOnLED();            // ( addr value -- )
-}
-
-/***
- *
- * mapping of uno:2 (GPIO D2) output to sw8 (DIP sw on A5) input
- * inefficient.
- *
- */
-
-/****
- * uno:2 is bit 2^0 LED (ersatz black LED)
- *
- *
- */
-
-/***
- *
- * TODO
- *
- * Hardware issue: A0 A1 .. A5 not 'easily' indexed by a loop.
- * See if a generic notion exists for this one. ;)
- *
- *
- *
- *
- */
+/* uno:2 is bit 2^0 LED (ersatz black LED) */
 
 void ledsJob() {
     strobeLeds();
@@ -474,6 +275,7 @@ void job() {
     _CRLF();
     _dotS();
     _CRLF();
+    delay(400);
     // initExperiment();
 }
 
@@ -506,7 +308,7 @@ void printSignonMsgs() {
     if (doDelay) {
         Serial.println();
         Serial.println(" long delay program identity check");
-        delay(12123); // 12 seconds
+        delay(12123);
     }
 }
 
